@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
+    <title>Menu - Pizzaria Reputation</title>
+    <style>
+        /* Grid de menu com responsividade */
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        /* Estilos para itens do menu */
+        .menu-item {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        /* Efeito hover */
+        .menu-item:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Estilos para imagem das pizzas */
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Títulos e descrição das pizzas */
+        .menu-item h3 {
+            color: #e74c3c;
+            padding: 0 15px;
+            margin: 15px 0 10px;
+            font-size: 1.4em;
+        }
+
+        .menu-item p {
+            padding: 0 15px;
+            color: #666;
+            min-height: 60px;
+        }
+
+        /* Preço das pizzas */
+        .price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.2em;
+            padding: 0 15px;
+            margin: 10px 0;
+        }
+
+        /* Responsividade para telas pequenas */
+        @media (max-width: 768px) {
+            .menu-items {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .menu-item h3 {
+                font-size: 1.2em;
+            }
+
+            .menu-item p {
+                font-size: 0.9em;
+            }
+
+            .price {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="principal">
+        <header>
+            <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
+            <div id="menu">
+                <a href="index.html">Home</a>
+                <a href="sobre.html">Sobre</a>
+                <a href="pedidos.html">Pedidos</a>
+                <a href="menu.html">Menu</a>
+                <a href="cadastro.html">Cadastro de Usuários</a>
+                <a href="usuarios.html">Lista de Usuários</a>
+                <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+                <a href="contato.html">Contato</a>
+                <a href="#" id="logout">Sair</a>
+            </div>
+        </header>
+
+        <main>
+            <div class="menu-header">
+                <h1>Menu Reputation</h1>
+                <p>Todos os sabores inspirados no álbum lendário</p>
+            </div>
+
+            <section class="menu">
+                <div class="menu-items">
+                    <!-- 1. ...Ready For It? -->
+                    <div class="menu-item">
+                        <img src="pizza-marguerita.png" alt="...Ready For It?">
+                        <h3>...Ready For It?</h3>
+                        <p>Margherita: Molho de tomate, mussarela, manjericão fresco e azeite de oliva.</p>
+                        <p class="price">R$ 45,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="1">-</button>
+                            <input type="number" id="qty-1" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="1">+</button>
+                        </div>
+                        <button class="btn-order" data-id="1" data-name="...Ready For It?" data-price="45.00" data-img="pizza-marguerita.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 2. End Game -->
+                    <div class="menu-item">
+                        <img src="pizza-calabresa.png" alt="End Game">
+                        <h3>End Game</h3>
+                        <p>Calabresa: Molho de tomate, mussarela, calabresa fatiada e cebola caramelizada.</p>
+                        <p class="price">R$ 47,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="2">-</button>
+                            <input type="number" id="qty-2" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="2">+</button>
+                        </div>
+                        <button class="btn-order" data-id="2" data-name="End Game" data-price="47.00" data-img="pizza-calabresa.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 3. I Did Something Bad -->
+                    <div class="menu-item">
+                        <img src="pizza-pepperoni.png" alt="I Did Something Bad">
+                        <h3>I Did Something Bad</h3>
+                        <p>Pepperoni: Molho de tomate, mussarela e pepperoni picante.</p>
+                        <p class="price">R$ 49,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="3">-</button>
+                            <input type="number" id="qty-3" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="3">+</button>
+                        </div>
+                        <button class="btn-order" data-id="3" data-name="I Did Something Bad" data-price="49.00" data-img="pizza-pepperoni.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 4. Don't Blame Me -->
+                    <div class="menu-item">
+                        <img src="pizza-4queijos.png" alt="Don't Blame Me">
+                        <h3>Don't Blame Me</h3>
+                        <p>4 Queijos: Mussarela, parmesão, gorgonzola e provolone cremosos.</p>
+                        <p class="price">R$ 50,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="4">-</button>
+                            <input type="number" id="qty-4" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="4">+</button>
+                        </div>
+                        <button class="btn-order" data-id="4" data-name="Don't Blame Me" data-price="50.00" data-img="pizza-4queijos.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 5. Delicate -->
+                    <div class="menu-item">
+                        <img src="pizza-frango.png" alt="Delicate">
+                        <h3>Delicate</h3>
+                        <p>Frango Catupiry: Molho de tomate, mussarela, frango desfiado e catupiry cremoso.</p>
+                        <p class="price">R$ 48,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="5">-</button>
+                            <input type="number" id="qty-5" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="5">+</button>
+                        </div>
+                        <button class="btn-order" data-id="5" data-name="Delicate" data-price="48.00" data-img="pizza-frango.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 6. Look What You Made Me Do -->
+                    <div class="menu-item">
+                        <img src="pizza-vegetariana.png" alt="Look What You Made Me Do">
+                        <h3>Look What You Made Me Do</h3>
+                        <p>Vegetariana: Molho de tomate, mussarela, pimentão, tomate, cebola e azeitonas.</p>
+                        <p class="price">R$ 46,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="6">-</button>
+                            <input type="number" id="qty-6" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="6">+</button>
+                        </div>
+                        <button class="btn-order" data-id="6" data-name="Look What You Made Me Do" data-price="46.00" data-img="pizza-vegetariana.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 7. So It Goes... -->
+                    <div class="menu-item">
+                        <img src="pizza-portuguesa.png" alt="So It Goes...">
+                        <h3>So It Goes...</h3>
+                        <p>Portuguesa: Molho de tomate, mussarela, presunto, ovos, cebola e azeitonas.</p>
+                        <p class="price">R$ 49,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="7">-</button>
+                            <input type="number" id="qty-7" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="7">+</button>
+                        </div>
+                        <button class="btn-order" data-id="7" data-name="So It Goes..." data-price="49.00" data-img="pizza-portuguesa.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 8. Gorgeous -->
+                    <div class="menu-item">
+                        <img src="pizza-napolitana.png" alt="Gorgeous">
+                        <h3>Gorgeous</h3>
+                        <p>Napolitana: Molho de tomate, mussarela de búfala, tomate fresco e manjericão.</p>
+                        <p class="price">R$ 52,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="8">-</button>
+                            <input type="number" id="qty-8" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="8">+</button>
+                        </div>
+                        <button class="btn-order" data-id="8" data-name="Gorgeous" data-price="52.00" data-img="pizza-napolitana.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 9. Getaway Car -->
+                    <div class="menu-item">
+                        <img src="pizza-calabresa-cheddar.png" alt="Getaway Car">
+                        <h3>Getaway Car</h3>
+                        <p>Calabresa Cheddar: Molho de tomate, calabresa, cheddar cremoso e cebola roxa.</p>
+                        <p class="price">R$ 51,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="9">-</button>
+                            <input type="number" id="qty-9" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="9">+</button>
+                        </div>
+                        <button class="btn-order" data-id="9" data-name="Getaway Car" data-price="51.00" data-img="pizza-calabresa-cheddar.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 10. King Of My Heart -->
+                    <div class="menu-item">
+                        <img src="pizza-bacon.png" alt="King Of My Heart">
+                        <h3>King Of My Heart</h3>
+                        <p>Bacon: Molho de tomate, mussarela, bacon crocante e cebola caramelizada.</p>
+                        <p class="price">R$ 53,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="10">-</button>
+                            <input type="number" id="qty-10" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="10">+</button>
+                        </div>
+                        <button class="btn-order" data-id="10" data-name="King Of My Heart" data-price="53.00" data-img="pizza-bacon.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 11. Dancing With Our Hands Tied -->
+                    <div class="menu-item">
+                        <img src="pizza-romeu-e-julieta.png" alt="Dancing With Our Hands Tied">
+                        <h3>Dancing With Our Hands Tied</h3>
+                        <p>Romeu e Julieta: Queijo branco e goiabada derretidos, polvilhado com nozes.</p>
+                        <p class="price">R$ 48,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="11">-</button>
+                            <input type="number" id="qty-11" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="11">+</button>
+                        </div>
+                        <button class="btn-order" data-id="11" data-name="Dancing With Our Hands Tied" data-price="48.00" data-img="pizza-romeu-julieta.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 12. Dress -->
+                    <div class="menu-item">
+                        <img src="pizza-chocolate.png" alt="Dress">
+                        <h3>Dress</h3>
+                        <p>Chocolate: Chocolate meio amargo derretido com morangos frescos.</p>
+                        <p class="price">R$ 50,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="12">-</button>
+                            <input type="number" id="qty-12" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="12">+</button>
+                        </div>
+                        <button class="btn-order" data-id="12" data-name="Dress" data-price="50.00" data-img="pizza-chocolate.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 13. This Is Why We Can't Have Nice Things -->
+                    <div class="menu-item">
+                        <img src="pizza-especial-da-casa.png" alt="This Is Why We Can't Have Nice Things">
+                        <h3>This Is Why We Can't Have Nice Things</h3>
+                        <p>Especial da Casa: Molho de tomate, mussarela, presunto, champignon, palmito e azeitonas.</p>
+                        <p class="price">R$ 55,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="13">-</button>
+                            <input type="number" id="qty-13" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="13">+</button>
+                        </div>
+                        <button class="btn-order" data-id="13" data-name="This Is Why We Can't Have Nice Things" data-price="55.00" data-img="pizza-especial.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 14. Call It What You Want -->
+                    <div class="menu-item">
+                        <img src="pizza-camarao.png" alt="Call It What You Want">
+                        <h3>Call It What You Want</h3>
+                        <p>Camarão: Molho de tomate, mussarela, camarões refogados e catupiry.</p>
+                        <p class="price">R$ 60,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="14">-</button>
+                            <input type="number" id="qty-14" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="14">+</button>
+                        </div>
+                        <button class="btn-order" data-id="14" data-name="Call It What You Want" data-price="60.00" data-img="pizza-camarao.png">
+                            Adicionar
+                        </button>
+                    </div>
+
+                    <!-- 15. New Year's Day -->
+                    <div class="menu-item">
+                        <img src="pizza-banana-com-canela.png" alt="New Year's Day">
+                        <h3>New Year's Day</h3>
+                        <p>Banana com Canela: Banana caramelizada com canela e açúcar mascavo.</p>
+                        <p class="price">R$ 45,00</p>
+                        <div class="quantity">
+                            <button class="qty-btn minus" data-id="15">-</button>
+                            <input type="number" id="qty-15" value="1" min="1" max="10">
+                            <button class="qty-btn plus" data-id="15">+</button>
+                        </div>
+                        <button class="btn-order" data-id="15" data-name="New Year's Day" data-price="45.00" data-img="pizza-banana-canela.png">
+                            Adicionar
+                        </button>
+                    </div>
+            </section>
+        </main>
+    </div>
+
+    <footer style="background-color: #f4f4f4; border: 1px solid #ccc; text-align: center; padding: 10px; margin-top: 20px;">
+        <p style="margin: 0; font-size: 14px; color: #333;">© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Verificar login
+        if (!localStorage.getItem('usuarioLogado')) { 
+            window.location.href = 'login.html'; }
+
+        // Atualizar contador do carrinho
+        function atualizarContadorCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
+            document.getElementById('carrinho-count').textContent = totalItens;
+        }
+
+        // Adicionar ao carrinho
+        document.querySelectorAll('.btn-order').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const nome = this.getAttribute('data-name');
+                const preco = parseFloat(this.getAttribute('data-price'));
+                const img = this.getAttribute('data-img');
+                const quantidade = parseInt(document.getElementById(`qty-${id}`).value);
+
+                let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+                const itemExistente = carrinho.find(item => item.id === id);
+
+                if (itemExistente) {
+                    itemExistente.quantidade += quantidade;
+                } else {
+                    carrinho.push({
+                        id,
+                        nome,
+                        preco,
+                        img,
+                        quantidade
+                    });
+                }
+
+                localStorage.setItem('carrinho', JSON.stringify(carrinho));
+                atualizarContadorCarrinho();
+                
+                // Feedback visual
+                this.textContent = 'Adicionado!';
+                setTimeout(() => {
+                    this.textContent = 'Adicionar';
+                }, 1000);
+            });
+        });
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = 'login.html';
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', atualizarContadorCarrinho);
+    </script>
+</body>
+</html>

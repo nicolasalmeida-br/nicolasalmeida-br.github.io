@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
+    <title>Login - Pizzaria Reputation</title>
+</head>
+<body>
+    <div id="principal">
+        <header>
+            <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
+            <nav id="menu">
+                <a href="index.html">Home</a>
+                <a href="sobre.html">Sobre</a>
+                <a href="pedidos.html">Pedidos</a>
+                <a href="menu.html">Menu</a>
+                <a href="cadastro.html">Cadastro de Usuários</a>
+                <a href="usuarios.html">Lista de Usuários</a>
+                <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+                <a href="contato.html">Contato</a>
+                <a href="#" id="logout">Sair</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="form-login">
+                <div class="dados-preenchimento">
+                    <h1>Login</h1>
+                    <p>Informe seus dados para acessar sua conta</p>
+
+                    <form id="formLogin">
+                        <div class="input-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="senha">Senha</label>
+                            <input type="password" id="senha" name="senha" required>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Entrar</button>
+                    </form>
+
+                    <div id="msg-erro" class="mensagem erro"></div>
+                    
+                    <p class="login-link">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer style="background-color: #f4f4f4; border: 1px solid #ccc; text-align: center; padding: 10px; margin-top: 20px;">
+        <p style="margin: 0; font-size: 14px; color: #333;">© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Atualizar contador do carrinho
+        function atualizarContadorCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
+            document.getElementById('carrinho-count').textContent = totalItens;
+        }
+
+        // Login do usuário
+        document.getElementById('formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Limpar mensagens
+            document.getElementById('msg-erro').style.display = 'none';
+
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const usuario = usuarios.find(user => user.email === email && user.senha === senha);
+
+            if (!usuario) {
+                const usuariosCadastrados = usuarios.some(user => user.email === email);
+                if (!usuariosCadastrados) {
+                    document.getElementById('msg-erro').textContent = 'Este e-mail não está cadastrado!';
+                } else {
+                    document.getElementById('msg-erro').textContent = 'Senha incorreta!';
+                }
+                document.getElementById('msg-erro').style.display = 'block';
+                return;
+            }
+
+            // Salvar sessão do usuário
+            localStorage.setItem('usuarioLogado', JSON.stringify({
+                id: usuario.id,
+                nome: usuario.nome,
+                email: usuario.email
+            }));
+
+            // Redirecionar
+            window.location.href = 'index.html';
+        });
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = 'login.html';
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', atualizarContadorCarrinho);
+    </script>
+</body>
+</html>

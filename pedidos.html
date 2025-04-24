@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
+    <title>Meus Pedidos - Pizzaria Reputation</title>
+    <style>
+        /* Estilos adicionais para os pedidos */
+        .pedido-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .pedido-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .pedido-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .pedido-id {
+            background-color: #ff6347;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
+            display: inline-block;
+        }
+        
+        .pedido-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+        
+        .pedido-status.pendente {
+            background-color: #FFF3E0;
+            color: #FFA000;
+        }
+        
+        .pedido-status.preparando {
+            background-color: #E3F2FD;
+            color: #1976D2;
+        }
+        
+        .pedido-status.enviado {
+            background-color: #E8F5E9;
+            color: #388E3C;
+        }
+        
+        .pedido-status.entregue {
+            background-color: #F3E5F5;
+            color: #7B1FA2;
+        }
+        
+        .pedido-status.cancelado {
+            background-color: #FFEBEE;
+            color: #D32F2F;
+        }
+        
+        .pedido-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .pedido-data, .pedido-total {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .pedido-total {
+            font-weight: bold;
+            color: #e34f3d;
+        }
+        
+        .btn-detalhes {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        .btn-detalhes:hover {
+            background-color: #e34f3d;
+        }
+        
+        .sem-pedidos {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="principal">
+        <header>
+            <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
+            <nav id="menu">
+                <a href="index.html">Home</a>
+                <a href="sobre.html">Sobre</a>
+                <a href="pedidos.html">Pedidos</a>
+                <a href="menu.html">Menu</a>
+                <a href="cadastro.html">Cadastro de Usuários</a>
+                <a href="usuarios.html">Lista de Usuários</a>
+                <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+                <a href="contato.html">Contato</a>
+                <a href="#" id="logout">Sair</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="menu-header">
+                <h1>Meus Pedidos</h1>
+                <p>Acompanhe o status de seus pedidos</p>
+            </div>
+
+            <section id="lista-pedidos">
+                <!-- Pedidos serão renderizados via JS -->
+            </section>
+        </main>
+    </div>
+
+    <footer style="background-color: #f4f4f4; border: 1px solid #ccc; text-align: center; padding: 10px; margin-top: 20px;">
+        <p style="margin: 0; font-size: 14px; color: #333;">© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Verificar login
+        if (!localStorage.getItem('usuarioLogado')) {
+            window.location.href = 'login.html';
+        }
+
+        // Renderizar pedidos
+        function renderizarPedidos() {
+            const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+            const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+            const container = document.getElementById('lista-pedidos');
+            
+            // Filtrar pedidos do usuário
+            const pedidosUsuario = pedidos.filter(pedido => pedido.usuarioId === usuario.id);
+            
+            if (pedidosUsuario.length === 0) {
+                container.innerHTML = '<p class="sem-pedidos">Você ainda não fez nenhum pedido</p>';
+            } else {
+                container.innerHTML = '';
+                pedidosUsuario.forEach(pedido => {
+                    const pedidoElement = document.createElement('div');
+                    pedidoElement.className = 'pedido-card';
+                    pedidoElement.innerHTML = `
+                        <div class="pedido-header">
+                            <div>
+                                <span class="pedido-id">Pedido #${pedido.id}</span>
+                            </div>
+                            <span class="pedido-status ${pedido.status}">${pedido.status}</span>
+                        </div>
+                        <div class="pedido-info">
+                            <span class="pedido-data">${new Date(pedido.data).toLocaleString('pt-BR')}</span>
+                            <span class="pedido-total">Total: R$ ${pedido.total.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <button class="btn-detalhes" data-id="${pedido.id}">
+                            <i class="fas fa-search"></i> Ver Detalhes
+                        </button>
+                    `;
+                    container.appendChild(pedidoElement);
+                });
+
+                // Adicionar event listeners aos botões de detalhes
+                document.querySelectorAll('.btn-detalhes').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const pedidoId = this.getAttribute('data-id');
+                        window.location.href = `detalhes-pedido.html?id=${pedidoId}`;
+                    });
+                });
+            }
+        }
+
+        // Atualizar contador do carrinho
+        function atualizarContadorCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            document.getElementById('carrinho-count').textContent = carrinho.reduce((total, item) => total + item.quantidade, 0);
+        }
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = 'login.html';
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            renderizarPedidos();
+            atualizarContadorCarrinho();
+        });
+    </script>
+    <!-- Adicione o Font Awesome para os ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
+    <title>Carrinho - Pizzaria Reputation</title>
+</head>
+<body>
+    <div id="principal">
+        <header>
+            <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
+            <nav id="menu">
+                <a href="index.html">Home</a>
+                <a href="sobre.html">Sobre</a>
+                <a href="pedidos.html">Pedidos</a>
+                <a href="menu.html">Menu</a>
+                <a href="cadastro.html">Cadastro de Usuários</a>
+                <a href="usuarios.html">Lista de Usuários</a>
+                <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+                <a href="contato.html">Contato</a>
+                <a href="#" id="logout">Sair</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="menu-header">
+                <h1>Seu Carrinho</h1>
+                <p>Revise seus itens antes de finalizar</p>
+            </div>
+
+            <section id="carrinho">
+                <div id="carrinho-itens" class="carrinho-items">
+                    <!-- Itens serão renderizados via JavaScript -->
+                </div>
+
+                <div class="carrinho-total">
+                    <p>Subtotal: <span id="subtotal">R$ 0,00</span></p>
+                    <p>Taxa de entrega: <span id="taxa-entrega">R$ 8,00</span></p>
+                    <p class="total">Total: <span id="total">R$ 8,00</span></p>
+                </div>
+
+                <button id="finalizar-pedido" class="btn-submit">Finalizar Pedido</button>
+            </section>
+        </main>
+    </div>
+
+    <footer style="background-color: #f4f4f4; border: 1px solid #ccc; text-align: center; padding: 10px; margin-top: 20px;">
+        <p style="margin: 0; font-size: 14px; color: #333;">© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Verificar login
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        console.log(usuarioLogado); // Verifique se o usuário está sendo lido corretamente.
+
+        if (!usuarioLogado) {
+            console.log('Usuário não logado. Redirecionando...');
+            window.location.href = 'login.html';
+        }
+
+        // Renderizar carrinho
+        function renderizarCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const container = document.getElementById('carrinho-itens');
+            let subtotal = 0;
+
+            if (carrinho.length === 0) {
+                container.innerHTML = '<p class="carrinho-vazio">Seu carrinho está vazio</p>';
+                document.getElementById('finalizar-pedido').style.display = 'none';
+            } else {
+                container.innerHTML = '';
+                carrinho.forEach(item => {
+                    const itemTotal = item.preco * item.quantidade;
+                    subtotal += itemTotal;
+
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'carrinho-item';
+                    itemElement.style.cssText = "display: flex; align-items: center; gap: 20px; border: 1px solid #ccc; padding: 10px; border-radius: 8px; margin-bottom: 10px;";
+                    itemElement.innerHTML = `
+                        <img src="${item.img}" alt="${item.nome}" style="width: 100px; height: auto; border-radius: 8px;">
+                        <div style="flex: 1;">
+                            <h3>${item.nome}</h3>
+                            <p>R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <button class="qty-btn minus" data-id="${item.id}" style="padding: 5px 10px; border: none; background-color: #e34f3d; color: white; border-radius: 5px;">-</button>
+                            <span>${item.quantidade}</span>
+                            <button class="qty-btn plus" data-id="${item.id}" style="padding: 5px 10px; border: none; background-color: #4CAF50; color: white; border-radius: 5px;">+</button>
+                        </div>
+                        <button class="btn-remover" data-id="${item.id}" style="padding: 8px 15px; border: none; background-color: #ff6347; color: white; border-radius: 5px; cursor: pointer;">×</button>
+                    `;
+                    container.appendChild(itemElement);
+                });
+            }
+
+            // Atualizar totais
+            const taxaEntrega = 8.00;
+            const total = subtotal + taxaEntrega;
+            
+            document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+            document.getElementById('total').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            document.getElementById('carrinho-count').textContent = carrinho.reduce((total, item) => total + item.quantidade, 0);
+        }
+
+        // Alterar quantidade no carrinho
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('qty-btn')) {
+                const id = event.target.getAttribute('data-id');
+                const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+                const item = carrinho.find(item => item.id === id);
+
+                if (item) {
+                    if (event.target.classList.contains('plus')) {
+                        item.quantidade++;
+                    } else if (event.target.classList.contains('minus') && item.quantidade > 1) {
+                        item.quantidade--;
+                    }
+
+                    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+                    renderizarCarrinho(); // Atualizar interface
+                }
+            }
+        });
+
+        // Remover item do carrinho
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn-remover')) {
+                const id = event.target.getAttribute('data-id');
+                let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+                carrinho = carrinho.filter(item => item.id !== id);
+                localStorage.setItem('carrinho', JSON.stringify(carrinho));
+                renderizarCarrinho();
+            }
+        });
+
+        // Atualizar contador do carrinho
+        function atualizarContadorCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
+            document.getElementById('carrinho-count').textContent = totalItens;
+        }
+
+        // Finalizar pedido
+        document.getElementById('finalizar-pedido').addEventListener('click', function() {
+            const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            
+            if (carrinho.length === 0) return;
+
+            const pedido = {
+                id: Date.now(),
+                usuarioId: usuario.id,
+                itens: carrinho,
+                data: new Date().toISOString(),
+                status: 'pendente',
+                total: parseFloat(document.getElementById('total').textContent.replace('R$ ', '').replace(',', '.'))
+            };
+
+            // Salvar pedido
+            const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+            pedidos.push(pedido);
+            localStorage.setItem('pedidos', JSON.stringify(pedidos));
+
+            // Limpar carrinho
+            localStorage.removeItem('carrinho');
+            renderizarCarrinho();
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            renderizarCarrinho();
+            atualizarContadorCarrinho();
+        });
+    </script>
+</body>
+</html>

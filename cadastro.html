@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Usuários - Pizzaria Reputation</title>
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon" />
+  <style>
+    #senha-container,
+    .formulario-cadastro {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    .formulario-cadastro form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #444;
+      font-size: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
+      font-size: 15px;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #d62828;
+      outline: none;
+      box-shadow: 0 0 3px rgba(214, 40, 40, 0.3);
+    }
+
+    button {
+      background-color: #d62828;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 50%;
+      margin: 20px auto 0;
+      display: block;
+    }
+
+    button:hover {
+      background-color: #a61c1c;
+    }
+
+    footer {
+      background-color: #f4f4f4;
+      border: 1px solid #ccc;
+      text-align: center;
+      padding: 10px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="principal">
+    <header>
+      <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo" />
+      <nav id="menu">
+        <a href="index.html">Home</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="pedidos.html">Pedidos</a>
+        <a href="menu.html">Menu</a>
+        <a href="cadastro.html">Cadastro de Usuários</a>
+        <a href="usuarios.html">Lista de Usuários</a>
+        <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+        <a href="contato.html">Contato</a>
+        <a href="#" id="logout">Sair</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="menu-header" style="text-align: center;">
+        <h1>Cadastro de Usuários</h1>
+        <p>Preencha os campos abaixo para cadastrar um novo usuário</p>
+      </div>
+
+      <!-- Seletor de tipo de acesso -->
+      <div id="senha-container">
+        <label for="tipo-acesso">Selecione o tipo de usuário:</label>
+        <select id="tipo-acesso">
+          <option value="cliente">Cliente</option>
+          <option value="admin">Administrador</option>
+        </select>
+        <p></p>
+
+        <label for="senha-acesso">Digite a senha:</label>
+        <input type="password" id="senha-acesso" placeholder="Senha" />
+
+        <button id="validar-senha">Validar</button>
+      </div>
+
+      <!-- Formulário de cadastro -->
+      <section class="formulario-cadastro" style="display: none;">
+        <form id="form-cadastro">
+          <div class="form-group">
+            <label for="nome">👤 Nome</label>
+            <input type="text" id="nome" placeholder="Digite o nome completo" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">📧 E-mail</label>
+            <input type="email" id="email" placeholder="exemplo@email.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="telefone">📞 Telefone</label>
+            <input type="text" id="telefone" placeholder="(00) 00000-0000" />
+          </div>
+
+          <div class="form-group">
+            <label for="tipo">⚙️ Tipo</label>
+            <select id="tipo">
+              <option value="cliente">Cliente</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </div>
+
+          <button type="submit">➕ Cadastrar</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <p>© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    // Validação de senha para cliente e admin
+    document.getElementById('validar-senha').addEventListener('click', function () {
+      const tipo = document.getElementById('tipo-acesso').value;
+      const senha = document.getElementById('senha-acesso').value;
+
+      const senhaAdmin = 'admin123';
+      const senhaCliente = 'cliente123';
+
+      if ((tipo === 'admin' && senha === senhaAdmin) || (tipo === 'cliente' && senha === senhaCliente)) {
+        alert('Senha correta! Acesso liberado.');
+
+        document.getElementById('senha-container').style.display = 'none';
+        document.querySelector('.formulario-cadastro').style.display = 'block';
+
+        // Define o tipo escolhido automaticamente no formulário
+        document.getElementById('tipo').value = tipo;
+      } else {
+        alert('Senha incorreta. Acesso negado.');
+      }
+    });
+
+    // Cadastrar novo usuário
+    document.getElementById('form-cadastro').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const telefone = document.getElementById('telefone').value;
+      const tipo = document.getElementById('tipo').value;
+
+      const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+      const novoUsuario = {
+        id: Date.now(),
+        nome,
+        email,
+        telefone,
+        tipo,
+        status: 'ativo',
+        dataCadastro: new Date().toISOString()
+      };
+
+      usuarios.push(novoUsuario);
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+      alert('Usuário cadastrado com sucesso!');
+      document.getElementById('form-cadastro').reset();
+    });
+
+    // Logout (opcional)
+    document.getElementById('logout').addEventListener('click', function (e) {
+      e.preventDefault();
+      localStorage.removeItem('usuarioLogado');
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

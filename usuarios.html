@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="estilo.css">
+  <title>Usuários - Pizzaria Reputation</title>
+  <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon" />
+  <style>/* Caixa de senha */
+    #senha-admin {
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      max-width: 400px;
+      margin: 30px auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    }
+
+    #senha-admin label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    #senha-admin input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    #senha-admin button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #senha-admin button:hover {
+      background-color: #45a049;
+    }
+
+    #erro-senha {
+      color: red;
+      font-size: 14px;
+      display: none;
+      margin-top: 10px;
+    }
+
+    /* Lista de usuários */
+    .lista-usuarios {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    table th {
+      background-color: #f0f0f0;
+    }
+
+    .status-badge.ativo {
+      background-color: #4CAF50;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .status-badge.inativo {
+      background-color: #ccc;
+      color: #444;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .btn-alterar-status,
+    .btn-excluir {
+      padding: 8px 12px;
+      font-size: 13px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 2px;
+    }
+
+    .btn-alterar-status {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-alterar-status:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-excluir {
+      background-color: #d62828;
+      color: white;
+    }
+
+    .btn-excluir:hover {
+      background-color: #a61c1c;
+    }
+
+    footer {
+      background-color: #f4f4f4;
+      border-top: 1px solid #ccc;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      nav#menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      nav#menu a {
+        margin: 5px;
+      }
+
+      table {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="principal">
+    <header>
+      <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo" />
+      <nav id="menu">
+        <a href="index.html">Home</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="pedidos.html">Pedidos</a>
+        <a href="menu.html">Menu</a>
+        <a href="cadastro.html">Cadastro de Usuários</a>
+        <a href="usuarios.html">Lista de Usuários</a>
+        <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+        <a href="contato.html">Contato</a>
+        <a href="#" id="logout">Sair</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="menu-header">
+        <h1>Gerenciar Usuários</h1>
+        <p>Administre os usuários do sistema</p>
+      </div>
+
+      <!-- Caixa de senha para admin -->
+      <section id="senha-admin">
+        <label for="senha">Digite a senha de administrador:</label>
+        <input type="password" id="senha" name="senha" placeholder="Senha de administrador" />
+        <button id="validar-senha">Validar</button>
+        <p id="erro-senha">Senha incorreta. Tente novamente.</p>
+      </section>
+
+      <!-- Lista de usuários -->
+      <section class="lista-usuarios" style="display: none;">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Tipo</th>
+                <th>Status</th>
+                <th>Cadastro</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="lista-usuarios">
+              <!-- Usuários serão carregados via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <p>© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+    if (!usuarioLogado) {
+      window.location.href = 'login.html';
+    }
+
+    function validarSenhaAdmin() {
+      const senhaCorreta = 'admin123';
+      const senhaInformada = document.getElementById('senha').value;
+      const erroSenha = document.getElementById('erro-senha');
+      const listaUsuariosSection = document.querySelector('.lista-usuarios');
+      const senhaAdminSection = document.getElementById('senha-admin');
+
+      if (senhaInformada === senhaCorreta) {
+        listaUsuariosSection.style.display = 'block';
+        senhaAdminSection.style.display = 'none';
+        carregarUsuarios();
+      } else {
+        erroSenha.style.display = 'block';
+      }
+    }
+
+    function carregarUsuarios() {
+      const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+      const lista = document.getElementById('lista-usuarios');
+
+      if (usuarios.length === 0) {
+        lista.innerHTML = '<tr><td colspan="8">Nenhum usuário cadastrado</td></tr>';
+      } else {
+        lista.innerHTML = usuarios.map(usuario => `
+          <tr>
+            <td>${usuario.id}</td>
+            <td>${usuario.nome}</td>
+            <td>${usuario.email}</td>
+            <td>${usuario.telefone || '--'}</td>
+            <td>${usuario.tipo || 'Cliente'}</td>
+            <td>
+              <span class="status-badge ${usuario.status}">
+                ${usuario.status === 'ativo' ? 'Ativo' : 'Inativo'}
+              </span>
+            </td>
+            <td>${new Date(usuario.dataCadastro).toLocaleDateString('pt-BR')}</td>
+            <td>
+              <button class="btn-alterar-status" data-id="${usuario.id}">
+                ${usuario.status === 'ativo' ? 'Desativar' : 'Ativar'}
+              </button>
+              <button class="btn-excluir" data-id="${usuario.id}">Excluir</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('senha-admin').style.display = 'block';
+      document.getElementById('validar-senha').addEventListener('click', validarSenhaAdmin);
+
+      document.getElementById('logout').addEventListener('click', function (e) {
+        e.preventDefault();
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = 'login.html';
+      });
+
+      document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('btn-alterar-status')) {
+          const id = parseInt(e.target.getAttribute('data-id'));
+          let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+          const usuario = usuarios.find(u => u.id === id);
+          if (usuario) {
+            usuario.status = usuario.status === 'ativo' ? 'inativo' : 'ativo';
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            carregarUsuarios();
+          }
+        }
+
+        if (e.target.classList.contains('btn-excluir')) {
+          if (confirm('Tem certeza que deseja excluir este usuário?')) {
+            const id = parseInt(e.target.getAttribute('data-id'));
+            let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+            usuarios = usuarios.filter(u => u.id !== id);
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            carregarUsuarios();
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

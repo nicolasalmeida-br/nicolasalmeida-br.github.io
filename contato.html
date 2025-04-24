@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
+    <title>Contato - Pizzaria Reputation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="principal">
+        <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
+        <nav id="menu">
+            <a href="index.html">Home</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="pedidos.html">Pedidos</a>
+            <a href="menu.html">Menu</a>
+            <a href="cadastro.html">Cadastro de Usuários</a>
+            <a href="usuarios.html">Lista de Usuários</a>
+            <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+            <a href="contato.html">Contato</a>
+            <a href="#" id="logout">Sair</a>
+        </nav>
+
+        <div class="menu-header">
+            <h1>Fale Conosco</h1>
+            <p>Entre em contato conosco para tirar dúvidas, fazer sugestões ou relatar problemas.</p>
+        </div>
+
+        <section class="form-contato">
+            <div class="dados-contato">
+                <form id="formContato" action="#" method="POST">
+                    <div class="input-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" required placeholder="Digite seu nome">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" required placeholder="Digite seu e-mail">
+                    </div>
+                    <div class="input-group">
+                        <label for="assunto">Assunto</label>
+                        <select id="assunto" name="assunto" required>
+                            <option value="duvida">Dúvida</option>
+                            <option value="sugestao">Sugestão</option>
+                            <option value="reclamacao">Reclamação</option>
+                            <option value="elogio">Elogio</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="mensagem">Mensagem</label>
+                        <textarea id="mensagem" name="mensagem" required placeholder="Escreva sua mensagem..." rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Enviar Mensagem</button>
+                </form>
+
+                <p id="msg-confirmacao-contato"></p>
+            </div>
+
+            <div class="dados-contato">
+                <div class="contact-methods">
+                    <div class="contact-card">
+                        <div class="icon-container">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h4>Telefone</h4>
+                        <p>(11) 1234-5678</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon-container">
+                            <img src="logo-zap.jpg" alt="WhatsApp" class="contact-icon">
+                        </div>
+                        <h4>WhatsApp</h4>
+                        <p>(11) 99999-9999</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon-container">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h4>E-mail</h4>
+                        <p>contato@pizzariadeliciosa.com.br</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon-container">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>Endereço</h4>
+                        <p>Rua das Pizzas, 123 - Centro, São Paulo/SP</p>
+                    </div>
+                </div>
+
+                <div class="info-contato">
+                    <h3>Horário de Funcionamento</h3>
+                    <p><strong>Segunda a Quinta:</strong> 18h às 23h</p>
+                    <p><strong>Sexta e Sábado:</strong> 18h às 00h</p>
+                    <p><strong>Domingo:</strong> 18h às 22h</p>
+                    <p><strong>Feriados:</strong> 19h às 23h</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer style="background-color: #f4f4f4; border: 1px solid #ccc; text-align: center; padding: 10px; margin-top: 20px;">
+        <p style="margin: 0; font-size: 14px; color: #333;">© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Atualizar contador do carrinho
+        function atualizarContadorCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
+            document.getElementById('carrinho-count').textContent = totalItens;
+        }
+
+        // Inicializar contador do carrinho
+        document.addEventListener('DOMContentLoaded', atualizarContadorCarrinho);
+
+        // Simular envio de mensagem
+        document.getElementById('formContato').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('msg-confirmacao-contato').style.display = 'block';
+            document.getElementById('msg-confirmacao-contato').textContent = 'Mensagem enviada com sucesso! Obrigado pelo contato.';
+            document.getElementById('formContato').reset();
+            setTimeout(function() {
+                document.getElementById('msg-confirmacao-contato').style.display = 'none';
+            }, 5000);
+        });
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', function(event) {
+            event.preventDefault();
+            // Se o logout não for necessário, você pode remover esta parte
+            // localStorage.removeItem('usuarioLogado');
+            window.location.href = 'index.html'; // Redireciona para a página inicial
+        });
+    </script>
+</body>
+</html>

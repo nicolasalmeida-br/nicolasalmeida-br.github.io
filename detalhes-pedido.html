@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
+    <title>Detalhes do Pedido - Pizzaria Reputation</title>
+</head>
+<body>
+    <div id="principal">
+        <header>
+            <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
+            <nav id="menu">
+                <a href="index.html">Home</a>
+                <a href="sobre.html">Sobre</a>
+                <a href="pedidos.html">Pedidos</a>
+                <a href="menu.html">Menu</a>
+                <a href="cadastro.html">Cadastro de Usuários</a>
+                <a href="usuarios.html">Lista de Usuários</a>
+                <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+                <a href="contato.html">Contato</a>
+                <a href="#" id="logout">Sair</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="menu-header">
+                <h1>Detalhes do Pedido</h1>
+                <p>Informações completas sobre seu pedido</p>
+            </div>
+
+            <section id="detalhes-pedido">
+                <div class="pedido-info">
+                    <div class="info-row">
+                        <span class="info-label">Número do Pedido:</span>
+                        <span id="pedido-id" class="info-value">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Data:</span>
+                        <span id="pedido-data" class="info-value">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Status:</span>
+                        <span id="pedido-status" class="info-value status-pendente">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Total:</span>
+                        <span id="pedido-total" class="info-value">--</span>
+                    </div>
+                </div>
+
+                <div class="pedido-itens">
+                    <h3>Itens do Pedido</h3>
+                    <div id="lista-itens" class="itens-container">
+                        <!-- Itens serão preenchidos por JavaScript -->
+                    </div>
+                </div>
+
+                <div class="pedido-acoes">
+                    <button id="btn-voltar" class="btn-secondary">Voltar para Pedidos</button>
+                    <button id="btn-cancelar" class="btn-cancelar">Cancelar Pedido</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Verificar login
+        if (!localStorage.getItem('usuarioLogado')) {
+            console.log("Usuário não logado, redirecionando para login...");
+            window.location.href = 'login.html';
+        } else {
+            console.log("Usuário logado:", localStorage.getItem('usuarioLogado'));
+        }
+
+        // Carregar detalhes do pedido
+        function carregarDetalhesPedido() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pedidoId = urlParams.get('id');
+            
+            if (!pedidoId) {
+                window.location.href = 'pedidos.html';
+                return;
+            }
+
+            const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+            const pedido = pedidos.find(p => p.id == pedidoId);
+
+            if (!pedido) {
+                window.location.href = 'pedidos.html';
+                return;
+            }
+
+            // Preencher informações do pedido
+            document.getElementById('pedido-id').textContent = `#${pedido.id}`;
+            document.getElementById('pedido-data').textContent = new Date(pedido.data).toLocaleString('pt-BR');
+            document.getElementById('pedido-status').textContent = pedido.status.charAt(0).toUpperCase() + pedido.status.slice(1);
+            document.getElementById('pedido-status').className = `info-value status-${pedido.status}`;
+            document.getElementById('pedido-total').textContent = `R$ ${pedido.total.toFixed(2).replace('.', ',')}`;
+
+            // Preencher itens do pedido
+            const listaItens = document.getElementById('lista-itens');
+            listaItens.innerHTML = '';
+
+            if (pedido.itens && pedido.itens.length > 0) {
+                pedido.itens.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'item-pedido';
+                    itemElement.innerHTML = `
+                        <img src="${item.img}" alt="${item.nome}">
+                        <div class="item-info">
+                            <h4>${item.nome}</h4>
+                            <p>Quantidade: ${item.quantidade}</p>
+                            <p>Preço unitário: R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+                            <p>Subtotal: R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</p>
+                        </div>
+                    `;
+                    listaItens.appendChild(itemElement);
+                });
+            } else {
+                listaItens.innerHTML = '<p>Nenhum item encontrado neste pedido.</p>';
+            }
+
+            // Desabilitar cancelamento se o pedido não estiver pendente
+            if (pedido.status !== 'pendente') {
+                document.getElementById('btn-cancelar').disabled = true;
+                document.getElementById('btn-cancelar').textContent = 'Pedido não pode ser cancelado';
+            }
+        }
+
+        // Event listeners
+        document.getElementById('btn-voltar').addEventListener('click', () => {
+            window.location.href = 'pedidos.html';
+        });
+
+        document.getElementById('btn-cancelar').addEventListener('click', () => {
+            if (confirm('Tem certeza que deseja cancelar este pedido?')) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const pedidoId = urlParams.get('id');
+                
+                let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+                const pedidoIndex = pedidos.findIndex(p => p.id == pedidoId);
+                
+                if (pedidoIndex !== -1) {
+                    pedidos[pedidoIndex].status = 'cancelado';
+                    localStorage.setItem('pedidos', JSON.stringify(pedidos));
+                    alert('Pedido cancelado com sucesso!');
+                    carregarDetalhesPedido();
+                }
+            }
+        });
+
+        // Atualizar contador do carrinho
+        function atualizarContadorCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            document.getElementById('carrinho-count').textContent = carrinho.reduce((total, item) => total + item.quantidade, 0);
+        }
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = 'login.html';
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarDetalhesPedido();
+            atualizarContadorCarrinho();
+        });
+    </script>
+</body>
+</html>

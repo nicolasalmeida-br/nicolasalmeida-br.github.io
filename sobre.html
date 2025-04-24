@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
+    <title>Sobre - Pizzaria Reputation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="principal">
+        <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
+        <nav id="menu">
+            <a href="index.html">Home</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="pedidos.html">Pedidos</a>
+            <a href="menu.html">Menu</a>
+            <a href="cadastro.html">Cadastro de Usuários</a>
+            <a href="usuarios.html">Lista de Usuários</a>
+            <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+            <a href="contato.html">Contato</a>
+            <a href="#" id="logout">Sair</a>
+        </nav>
+        
+        <div class="menu-header">
+            <h1>Sobre a Pizzaria Reputation</h1>
+            <p>Conheça nossa história e a experiência única que oferecemos.</p>
+        </div>
+
+        <section class="sobre">
+            <div class="quadrado-branco">
+                <p>Bem-vindo à Pizzaria Reputation, um lugar onde música e sabor se encontram! Inspirada no icônico álbum <strong>Reputation</strong> de Taylor Swift, nossa pizzaria oferece uma experiência única para os fãs da cantora e amantes de uma boa pizza.</p>
+                
+                <p>Nosso cardápio é uma homenagem às músicas do álbum, com cada pizza nomeada em referência às faixas que conquistaram milhões de corações ao redor do mundo. Desde sabores clássicos até combinações especiais, garantimos que cada pedaço conte uma história.</p>
+                
+                <p>Seja para curtir um jantar temático, reunir os amigos ou simplesmente saborear uma deliciosa pizza enquanto ouve seus hits favoritos, a Pizzaria Reputation é o lugar certo para você. Venha viver essa experiência!</p>
+            </div>
+        </section>
+    </div>
+
+    <footer style="background-color: #f4f4f4; border: 1px solid #ccc; text-align: center; padding: 10px; margin-top: 20px;">
+        <p style="margin: 0; font-size: 14px; color: #333;">© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Atualizar contador do carrinho
+        function atualizarContadorCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
+            document.getElementById('carrinho-count').textContent = totalItens;
+        }
+
+        // Inicializar contador do carrinho
+        document.addEventListener('DOMContentLoaded', atualizarContadorCarrinho);
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', function(event) {
+            event.preventDefault();
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>
