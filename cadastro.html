@@ -96,13 +96,6 @@
     }
   </style>
   <script>
-    // Verifica se o usuário está logado e se é administrador
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    if (!usuarioLogado || usuarioLogado.tipo !== 'admin') {
-      alert("Acesso restrito. Você precisa estar logado como administrador para acessar esta página.");
-      window.location.href = 'login.html';
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
       // Oculta o campo de senha de verificação por padrão
       document.getElementById('div-senha-verificacao').style.display = 'none';
