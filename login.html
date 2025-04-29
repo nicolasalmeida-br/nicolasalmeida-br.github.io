@@ -6,164 +6,66 @@
     <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
     <title>Login - Pizzaria Reputation</title>
     <style>
+        .menu-header {
+        padding: 2em 0;
+        text-align: center;
+        margin-bottom: 2em;
+        }
+
+        .menu-header h1 {
+            font-size: 2.5em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5em;
+        }
+
+        .menu-header p {
+            font-size: 1.4em;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
         }
-
-        #principal {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background-color: #d62828;
-            color: white;
-            padding: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .logo {
-            height: 60px;
-            display: block;
-            margin: 0 auto;
-        }
-
-        nav {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: #a61c1c;
-        }
-
         .form-login {
             max-width: 400px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-
-        .form-login h1 {
-            color: #d62828;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .form-login p {
-            text-align: center;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-
         .input-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 15px;
         }
-
         label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: bold;
+            margin-bottom: 5px;
         }
-
         input {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 8px;
             box-sizing: border-box;
-            font-size: 1rem;
         }
-
-        input:focus {
-            border-color: #d62828;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(214, 40, 40, 0.2);
-        }
-
         .btn-submit {
-            width: 100%;
-            background-color: #d62828;
+            background-color: #4CAF50;
             color: white;
-            padding: 0.8rem;
+            padding: 10px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: background-color 0.3s;
         }
-
-        .btn-submit:hover {
-            background-color: #a61c1c;
-        }
-
         .mensagem {
-            padding: 0.8rem;
-            margin: 1rem 0;
+            padding: 10px;
+            margin: 10px 0;
             border-radius: 4px;
             display: none;
         }
-
         .erro {
-            background-color: #ffebee;
-            color: #c62828;
-            border: 1px solid #ef9a9a;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: #666;
-        }
-
-        .login-link a {
-            color: #d62828;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            margin-top: auto;
-        }
-
-        @media (max-width: 600px) {
-            .form-login {
-                margin: 1rem;
-                padding: 1.5rem;
-            }
-
-            nav {
-                flex-direction: column;
-                align-items: center;
-                gap: 0.5rem;
-            }
+            background-color: #ffdddd;
+            color: #d8000c;
         }
     </style>
 </head>
