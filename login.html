@@ -6,125 +6,109 @@
     <link rel="stylesheet" href="estilo.css">
     <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
     <title>Login - Pizzaria Reputation</title>
-    <style>
-        /* Estilos Gerais */
-        body {
-          margin: 0;
-          padding: 0;
-          font-family: Arial, sans-serif;
-        }
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="estilo.css" />
+        <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon" />
+        <title>Cadastro de Usuários - Pizzaria Reputation</title>
+        <style>
+            /* Estilos do formulário de cadastro, seguindo o padrão do código de login */
+            .formulario-cadastro {
+              max-width: 600px;
+              margin: 40px auto;
+              padding: 20px;
+              background: #fff;
+              border-radius: 8px;
+              box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            }
 
-        /* Contêiner com o fundo gradiente – ocupará toda a tela */
-        #principal {
-          background: linear-gradient(135deg, #ffcc00, #ff6347);
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-        }
+            .formulario-cadastro form {
+              display: flex;
+              flex-direction: column;
+              gap: 20px;
+            }
 
-        header {
-          position: absolute;
-          top: 20px;
-          width: 100%;
-          text-align: center;
-        }
+            .form-group {
+              display: flex;
+              flex-direction: column;
+            }
 
-        header img.logo {
-          max-width: 200px;
-        }
+            .form-group label {
+              margin-bottom: 8px;
+              font-weight: bold;
+              color: #333;
+            }
 
-        #menu {
-          margin-top: 10px;
-        }
+            .form-group input,
+            .form-group select {
+              width: 100%;
+              padding: 12px;
+              border: 1px solid #ddd;
+              border-radius: 5px;
+              font-size: 1em;
+              background-color: #fff;
+            }
 
-        #menu a {
-          margin: 0 10px;
-          text-decoration: none;
-          color: #fff;
-          font-size: 1.1em;
-        }
+            button.btn-submit {
+              background-color: #4CAF50;
+              color: #fff;
+              padding: 12px 15px;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 16px;
+              width: 100%;
+              margin-top: 10px;
+            }
 
-        /* Área de Login – sem fundo branco extra */
-        .form-login {
-          text-align: center;
-        }
+            button.btn-submit:hover {
+              background-color: #45a049;
+            }
 
-        .form-login form {
-          /* Exibe o formulário centralizado sem contêiner branco */
-          display: inline-block;
-          text-align: left;
-        }
+            /* Campo de senha de verificação: inicialmente oculto */
+            #admin-verificacao {
+              display: none;
+              margin-top: -10px; /* Ajuste o espaçamento, se necessário */
+            }
 
-        .input-group {
-          margin-bottom: 20px;
-        }
+            #admin-verificacao label {
+              font-weight: normal;
+              font-size: 14px;
+              color: #333;
+            }
 
-        .input-group label {
-          display: block;
-          margin-bottom: 5px;
-          color: #fff; /* Rótulos em branco para contraste com o gradiente */
-          font-weight: bold;
-        }
+            #admin-verificacao input {
+              padding: 10px;
+              border: 1px solid #ddd;
+              border-radius: 5px;
+              font-size: 0.9em;
+              background-color: #fff;
+            }
 
-        .input-group input {
-          width: 100%;
-          padding: 10px;
-          border: none;
-          border-radius: 5px;
-          background-color: #fff; /* Apenas os inputs terão fundo branco */
-          font-size: 1em;
-        }
+            /* Rodapé */
+            footer {
+              background-color: #f4f4f4;
+              border: 1px solid #ccc;
+              text-align: center;
+              padding: 10px;
+              margin-top: 20px;
+            }
 
-        button.btn-submit {
-          width: 100%;
-          padding: 10px;
-          border: none;
-          background-color: #4CAF50;
-          color: #fff;
-          border-radius: 5px;
-          font-size: 16px;
-          cursor: pointer;
-        }
+            footer p {
+              margin: 0;
+              font-size: 14px;
+              color: #333;
+            }
 
-        button.btn-submit:hover {
-          background-color: #45a049;
-        }
-
-        .login-link {
-          margin-top: 20px;
-          color: #fff;
-        }
-
-        .login-link a {
-          color: #fff;
-          text-decoration: underline;
-        }
-
-        /* Rodapé */
-        footer {
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          background-color: #f4f4f4;
-          text-align: center;
-          padding: 10px;
-        }
-
-        footer p {
-          margin: 0;
-          font-size: 14px;
-          color: #333;
-        }
-
-        @media (max-width: 600px) {
-          button.btn-submit {
-            width: 100%;
-          }
-        }
-    </style>
+            @media (max-width: 600px) {
+              button.btn-submit {
+                width: 100%;
+              }
+            }
+        </style>
   </head>
   <body>
   <div id="principal">
@@ -162,7 +146,9 @@
                       <button type="submit" class="btn-submit">Entrar</button>
                   </form>
                   <div id="msg-erro" class="mensagem erro"></div>
-                  <p class="login-link">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+                  <p class="login-link">
+                      Não tem conta? <a href="cadastro.html">Cadastre-se</a>
+                  </p>
               </div>
           </section>
       </main>
