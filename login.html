@@ -3,8 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
     <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
     <title>Login - Pizzaria Reputation</title>
+    <style>
+        /* Estilos básicos para visualização */
+        .menu-header {
+        padding: 2em 0;
+        text-align: center;
+        margin-bottom: 2em;
+        }
+
+        .menu-header h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 0.5em;
+        }
+
+        .menu-header p {
+            font-size: 1.4em;
+            color: #666;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .form-login {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background-color: #45a049;
+        }
+        .mensagem {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: none;
+        }
+        .erro {
+            background-color: #ffdddd;
+            color: #d8000c;
+            border: 1px solid #ffaaaa;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        .login-link a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            background-color: #f4f4f4;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
 </head>
 <body>
 <div id="principal">
@@ -25,10 +121,12 @@
 
     <main>
         <section class="form-login">
-            <div class="dados-preenchimento">
+            <div class="menu-header">
                 <h1>Login</h1>
                 <p>Informe seus dados para acessar sua conta</p>
+            </div>
 
+            <div class="dados-preenchimento">
                 <form id="formLogin">
                     <div class="input-group">
                         <label for="email">E-mail</label>
