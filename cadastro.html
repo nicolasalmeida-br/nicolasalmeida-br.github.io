@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="estilo.css">
   <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon" />
   <style>
-    #senha-container,
     .formulario-cadastro {
       background-color: #fff;
       border: 1px solid #ccc;
@@ -87,135 +86,113 @@
   </style>
 </head>
 <body>
-  <div id="principal">
-    <header>
-      <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo" />
-      <nav id="menu">
-        <a href="index.html">Home</a>
-        <a href="sobre.html">Sobre</a>
-        <a href="pedidos.html">Pedidos</a>
-        <a href="menu.html">Menu</a>
-        <a href="cadastro.html">Cadastro de Usuários</a>
-        <a href="usuarios.html">Lista de Usuários</a>
-        <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
-        <a href="contato.html">Contato</a>
-        <a href="#" id="logout">Sair</a>
-      </nav>
-    </header>
+<div id="principal">
+  <header>
+    <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo" />
+    <nav id="menu">
+      <a href="index.html">Home</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="pedidos.html">Pedidos</a>
+      <a href="menu.html">Menu</a>
+      <a href="cadastro.html">Cadastro de Usuários</a>
+      <a href="usuarios.html">Lista de Usuários</a>
+      <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+      <a href="contato.html">Contato</a>
+      <a href="#" id="logout">Sair</a>
+    </nav>
+  </header>
 
-    <main>
-      <div class="menu-header" style="text-align: center;">
-        <h1>Cadastro de Usuários</h1>
-        <p>Preencha os campos abaixo para cadastrar um novo usuário</p>
-      </div>
+  <main>
+    <div class="menu-header" style="text-align: center;">
+      <h1>Cadastro de Usuários</h1>
+      <p>Preencha os campos abaixo para cadastrar um novo usuário</p>
+    </div>
 
-      <!-- Seletor de tipo de acesso -->
-      <div id="senha-container">
-        <label for="tipo-acesso">Selecione o tipo de usuário:</label>
-        <select id="tipo-acesso">
-          <option value="cliente">Cliente</option>
-          <option value="admin">Administrador</option>
-        </select>
-        <p></p>
+    <!-- Formulário de cadastro -->
+    <section class="formulario-cadastro">
+      <form id="form-cadastro">
+        <div class="form-group">
+          <label for="nome">👤 Nome</label>
+          <input type="text" id="nome" placeholder="Digite o nome completo" required />
+        </div>
 
-        <label for="senha-acesso">Digite a senha:</label>
-        <input type="password" id="senha-acesso" placeholder="Senha" />
+        <div class="form-group">
+          <label for="email">📧 E-mail</label>
+          <input type="email" id="email" placeholder="exemplo@email.com" required />
+        </div>
 
-        <button id="validar-senha">Validar</button>
-      </div>
+        <div class="form-group">
+          <label for="telefone">📞 Telefone</label>
+          <input type="text" id="telefone" placeholder="(00) 00000-0000" />
+        </div>
 
-      <!-- Formulário de cadastro -->
-      <section class="formulario-cadastro" style="display: none;">
-        <form id="form-cadastro">
-          <div class="form-group">
-            <label for="nome">👤 Nome</label>
-            <input type="text" id="nome" placeholder="Digite o nome completo" required />
-          </div>
+        <div class="form-group">
+          <label for="senha">🔒 Senha</label>
+          <input type="password" id="senha" placeholder="Digite uma senha" required />
+        </div>
 
-          <div class="form-group">
-            <label for="email">📧 E-mail</label>
-            <input type="email" id="email" placeholder="exemplo@email.com" required />
-          </div>
+        <div class="form-group">
+          <label for="tipo">⚙️ Tipo</label>
+          <select id="tipo">
+            <option value="cliente">Cliente</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
 
-          <div class="form-group">
-            <label for="telefone">📞 Telefone</label>
-            <input type="text" id="telefone" placeholder="(00) 00000-0000" />
-          </div>
+        <button type="submit">➕ Cadastrar</button>
+      </form>
+    </section>
+  </main>
+</div>
 
-          <div class="form-group">
-            <label for="tipo">⚙️ Tipo</label>
-            <select id="tipo">
-              <option value="cliente">Cliente</option>
-              <option value="admin">Administrador</option>
-            </select>
-          </div>
+<footer>
+  <p>© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+</footer>
 
-          <button type="submit">➕ Cadastrar</button>
-        </form>
-      </section>
-    </main>
-  </div>
+<script>
+  // Cadastrar novo usuário
+  document.getElementById('form-cadastro').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-  <footer>
-    <p>© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
-  </footer>
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const telefone = document.getElementById('telefone').value;
+    const senha = document.getElementById('senha').value;
+    const tipo = document.getElementById('tipo').value;
 
-  <script>
-    // Validação de senha para cliente e admin
-    document.getElementById('validar-senha').addEventListener('click', function () {
-      const tipo = document.getElementById('tipo-acesso').value;
-      const senha = document.getElementById('senha-acesso').value;
+    const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
-      const senhaAdmin = 'admin123';
-      const senhaCliente = 'cliente123';
+    // Verifica se o email já está cadastrado
+    const usuarioExistente = usuarios.find(u => u.email === email);
+    if (usuarioExistente) {
+      alert('Este e-mail já está cadastrado!');
+      return;
+    }
 
-      if ((tipo === 'admin' && senha === senhaAdmin) || (tipo === 'cliente' && senha === senhaCliente)) {
-        alert('Senha correta! Acesso liberado.');
+    const novoUsuario = {
+      id: Date.now(),
+      nome,
+      email,
+      telefone,
+      senha, // Nota: Em um sistema real, você deve hash a senha antes de armazenar
+      tipo,
+      status: 'ativo',
+      dataCadastro: new Date().toISOString()
+    };
 
-        document.getElementById('senha-container').style.display = 'none';
-        document.querySelector('.formulario-cadastro').style.display = 'block';
+    usuarios.push(novoUsuario);
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
 
-        // Define o tipo escolhido automaticamente no formulário
-        document.getElementById('tipo').value = tipo;
-      } else {
-        alert('Senha incorreta. Acesso negado.');
-      }
-    });
+    alert('Usuário cadastrado com sucesso!');
+    document.getElementById('form-cadastro').reset();
+  });
 
-    // Cadastrar novo usuário
-    document.getElementById('form-cadastro').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      const telefone = document.getElementById('telefone').value;
-      const tipo = document.getElementById('tipo').value;
-
-      const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-
-      const novoUsuario = {
-        id: Date.now(),
-        nome,
-        email,
-        telefone,
-        tipo,
-        status: 'ativo',
-        dataCadastro: new Date().toISOString()
-      };
-
-      usuarios.push(novoUsuario);
-      localStorage.setItem('usuarios', JSON.stringify(usuarios));
-
-      alert('Usuário cadastrado com sucesso!');
-      document.getElementById('form-cadastro').reset();
-    });
-
-    // Logout (opcional)
-    document.getElementById('logout').addEventListener('click', function (e) {
-      e.preventDefault();
-      localStorage.removeItem('usuarioLogado');
-      window.location.href = 'login.html';
-    });
-  </script>
+  // Logout (opcional)
+  document.getElementById('logout').addEventListener('click', function (e) {
+    e.preventDefault();
+    localStorage.removeItem('usuarioLogado');
+    window.location.href = 'login.html';
+  });
+</script>
 </body>
 </html>
