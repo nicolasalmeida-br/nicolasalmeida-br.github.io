@@ -9,45 +9,51 @@
     <style>
         /* Estilos Gerais */
         body {
-          font-family: Arial, sans-serif;
-          background-color: #f4f0e1;
           margin: 0;
+          padding: 0;
+          font-family: Arial, sans-serif;
+        }
+
+        /* Contêiner com o fundo gradiente – ocupará toda a tela */
+        #principal {
+          background: linear-gradient(135deg, #ffcc00, #ff6347);
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
           padding: 20px;
         }
 
-        #principal {
-          background: linear-gradient(135deg, #ffcc00, #ff6347);
-          width: 95%;
-          max-width: 1200px;
-          margin: 20px auto;
-          padding: 40px;
-          border-radius: 10px;
-        }
-
         header {
+          position: absolute;
+          top: 20px;
+          width: 100%;
           text-align: center;
-          margin-bottom: 20px;
         }
 
         header img.logo {
           max-width: 200px;
-          margin-bottom: 20px;
+        }
+
+        #menu {
+          margin-top: 10px;
         }
 
         #menu a {
           margin: 0 10px;
           text-decoration: none;
           color: #fff;
-          font-size: 1.2em;
+          font-size: 1.1em;
         }
 
-        /* Formulário sem container branco */
+        /* Área de Login – sem fundo branco extra */
         .form-login {
           text-align: center;
         }
 
         .form-login form {
-          /* Exibe o formulário centralizado sem fundo adicional */
+          /* Exibe o formulário centralizado sem contêiner branco */
           display: inline-block;
           text-align: left;
         }
@@ -58,32 +64,29 @@
 
         .input-group label {
           display: block;
-          margin-bottom: 8px;
+          margin-bottom: 5px;
+          color: #fff; /* Rótulos em branco para contraste com o gradiente */
           font-weight: bold;
-          color: #333;
         }
 
-        .input-group input,
-        .input-group select,
-        .input-group textarea {
+        .input-group input {
           width: 100%;
-          padding: 12px;
-          border: 1px solid #ddd;
+          padding: 10px;
+          border: none;
           border-radius: 5px;
+          background-color: #fff; /* Apenas os inputs terão fundo branco */
           font-size: 1em;
-          background-color: #fff;
         }
 
         button.btn-submit {
-          background-color: #4CAF50;
-          color: white;
-          padding: 12px 15px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 16px;
           width: 100%;
-          margin-top: 10px;
+          padding: 10px;
+          border: none;
+          background-color: #4CAF50;
+          color: #fff;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
         }
 
         button.btn-submit:hover {
@@ -91,27 +94,23 @@
         }
 
         .login-link {
-          text-align: center;
           margin-top: 20px;
-          color: #666;
+          color: #fff;
         }
 
         .login-link a {
-          color: #0066cc;
-          text-decoration: none;
-        }
-
-        .login-link a:hover {
+          color: #fff;
           text-decoration: underline;
         }
 
         /* Rodapé */
         footer {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
           background-color: #f4f4f4;
-          border: 1px solid #ccc;
           text-align: center;
           padding: 10px;
-          margin-top: 20px;
         }
 
         footer p {
