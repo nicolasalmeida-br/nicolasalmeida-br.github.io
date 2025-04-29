@@ -141,7 +141,7 @@
 </footer>
 
 <script>
-  // Verifica se o usuário está logado e se é admin
+  // Verifica se o usuário está logado e se é admin ao carregar a página
   document.addEventListener("DOMContentLoaded", function () {
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
     if (!usuarioLogado || usuarioLogado.tipo !== 'admin') {
@@ -150,9 +150,15 @@
     }
   });
 
-  // Cadastro de novo usuário
+  // Cadastro de novo usuário (verifica novamente o acesso)
   document.getElementById('form-cadastro').addEventListener('submit', function (e) {
     e.preventDefault();
+
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || usuarioLogado.tipo !== 'admin') {
+      alert("Acesso restrito. Você precisa estar logado como administrador para cadastrar novos usuários.");
+      return;
+    }
 
     const nome = document.getElementById('nome').value;
     const email = document.getElementById('email').value;
