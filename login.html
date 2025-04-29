@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="estilo.css">
     <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
     <title>Login - Pizzaria Reputation</title>
     <style>
@@ -25,6 +24,12 @@
             color: white;
             padding: 1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            height: 60px;
+            display: block;
+            margin: 0 auto;
         }
 
         nav {
@@ -223,7 +228,7 @@
         }
     }
 
-    // Login do usuário
+    // Login do usuário - Versão corrigida
     document.getElementById('formLogin').addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -232,12 +237,17 @@
         msgErro.style.display = 'none';
         msgErro.textContent = '';
 
-        const email = document.getElementById('email').value.trim();
+        const email = document.getElementById('email').value.trim().toLowerCase();
         const senha = document.getElementById('senha').value;
 
         try {
             const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-            const usuario = usuarios.find(user => user.email === email);
+
+            // Encontrar usuário (compatível com cadastro antigo e novo)
+            const usuario = usuarios.find(user => {
+                const userEmail = user.email ? user.email.trim().toLowerCase() : '';
+                return userEmail === email;
+            });
 
             if (!usuario) {
                 msgErro.textContent = 'E-mail ou senha incorretos!';
@@ -245,7 +255,10 @@
                 return;
             }
 
-            if (usuario.senha !== senha) {
+            // Verificar senha (compatível com cadastro antigo e novo)
+            const senhaCorreta = usuario.senha === senha;
+
+            if (!senhaCorreta) {
                 msgErro.textContent = 'E-mail ou senha incorretos!';
                 msgErro.style.display = 'block';
                 return;
