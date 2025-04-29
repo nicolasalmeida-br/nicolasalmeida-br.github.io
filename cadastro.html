@@ -75,6 +75,14 @@
       }
     }
   </style>
+  <script>
+    // Check se o usuário está logado como admin antes mesmo de renderizar a página.
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
+    if (!usuarioLogado || usuarioLogado.tipo !== 'admin') {
+      alert("Acesso restrito. Você precisa estar logado como administrador para acessar esta página.");
+      window.location.href = 'login.html';
+    }
+  </script>
 </head>
 <body>
 <div id="principal">
@@ -141,20 +149,11 @@
 </footer>
 
 <script>
-  // Verifica se o usuário está logado e se é admin ao carregar a página
-  document.addEventListener("DOMContentLoaded", function () {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    if (!usuarioLogado || usuarioLogado.tipo !== 'admin') {
-      alert("Acesso restrito. Você precisa estar logado como administrador para acessar esta página.");
-      window.location.href = 'login.html';
-    }
-  });
-
-  // Cadastro de novo usuário (verifica novamente o acesso)
+  // Cadastro de novo usuário (verifica novamente que o usuário logado é admin)
   document.getElementById('form-cadastro').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
     if (!usuarioLogado || usuarioLogado.tipo !== 'admin') {
       alert("Acesso restrito. Você precisa estar logado como administrador para cadastrar novos usuários.");
       return;
