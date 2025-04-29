@@ -46,41 +46,7 @@
       color: #fff;
     }
 
-    /* Seção para validação da senha administrativa */
-    #senha-admin {
-      text-align: center;
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      max-width: 400px;
-      margin: 0 auto 20px auto;
-    }
-    #senha-admin input {
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      width: 70%;
-    }
-    #senha-admin button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      background-color: #d62828;
-      color: white;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-    #erro-senha {
-      color: red;
-      margin-top: 10px;
-      display: none;
-    }
-
-    /* Formulário de cadastro (inicialmente escondido) */
+    /* Seção do formulário de cadastro */
     .formulario-cadastro {
       background-color: #fff;
       border: 1px solid #ccc;
@@ -89,7 +55,6 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       max-width: 600px;
       margin: 20px auto;
-      display: none;
     }
     .formulario-cadastro form {
       display: flex;
@@ -149,6 +114,25 @@
         width: 100%;
       }
     }
+
+    /* Campo de senha para verificação de administrador */
+    #div-senha-verificacao {
+      display: none;
+      margin-top: 10px;
+    }
+    #div-senha-verificacao label {
+      font-weight: normal;
+      font-size: 14px;
+      color: #333;
+    }
+    #div-senha-verificacao input {
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      width: 100%;
+      margin-top: 5px;
+    }
   </style>
   <script>
     // Verifica se o usuário está logado e se é administrador
@@ -158,27 +142,17 @@
       window.location.href = 'login.html';
     }
 
-    // Função para validar a senha administrativa
-    function validarSenhaAdmin() {
-      const senhaCorreta = 'admin123';
-      const senhaInformada = document.getElementById('senha').value;
-      const erroSenha = document.getElementById('erro-senha');
-      const formularioCadastroSection = document.getElementById('formulario-cadastro');
-      const senhaAdminSection = document.getElementById('senha-admin');
-
-      if (senhaInformada === senhaCorreta) {
-        formularioCadastroSection.style.display = 'block';
-        senhaAdminSection.style.display = 'none';
-      } else {
-        erroSenha.style.display = 'block';
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
-      // Exibe a seção de validação da senha administrativa
-      document.getElementById('senha-admin').style.display = 'block';
-      document.getElementById('formulario-cadastro').style.display = 'none';
-      document.getElementById('validar-senha').addEventListener('click', validarSenhaAdmin);
+      // Adiciona listener no select de tipo para mostrar ou ocultar o campo de senha de verificação
+      const tipoSelect = document.getElementById('tipo');
+      const divSenhaVerificacao = document.getElementById('div-senha-verificacao');
+      tipoSelect.addEventListener('change', function () {
+        if (this.value === 'admin') {
+          divSenhaVerificacao.style.display = 'block';
+        } else {
+          divSenhaVerificacao.style.display = 'none';
+        }
+      });
 
       // Configuração do botão de logout
       document.getElementById('logout').addEventListener('click', function (e) {
@@ -191,14 +165,25 @@
     // Função para cadastrar novo usuário
     function cadastrarUsuario(e) {
       e.preventDefault();
+
       const nome = document.getElementById('nome').value;
       const email = document.getElementById('email').value;
       const telefone = document.getElementById('telefone').value;
       const senhaUsuario = document.getElementById('senha-cadastro').value;
       const tipo = document.getElementById('tipo').value;
+
+      // Se o tipo for "admin", valida a senha de verificação
+      if (tipo === 'admin') {
+        const senhaVerificacao = document.getElementById('senha-verificacao').value;
+        if (senhaVerificacao !== 'admin123') {
+          alert('Senha de verificação incorreta para Administrador.');
+          return;
+        }
+      }
+
       const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
-      // Verifica se o email já está cadastrado
+      // Verifica se o e-mail já está cadastrado
       const usuarioExistente = usuarios.find(u => u.email === email);
       if (usuarioExistente) {
         alert('Este e-mail já está cadastrado!');
@@ -221,6 +206,8 @@
 
       alert('Usuário cadastrado com sucesso!');
       document.getElementById('form-cadastro').reset();
+      // Opcionalmente, remova o campo de senha verificação após o cadastro
+      document.getElementById('div-senha-verificacao').style.display = 'none';
     }
   </script>
 </head>
@@ -241,15 +228,8 @@
       <h1>Cadastro de Usuários</h1>
       <p>Preencha os campos abaixo para cadastrar um novo usuário</p>
     </div>
-    <!-- Seção para validação da senha administrativa -->
-    <section id="senha-admin">
-      <p>Digite a senha administrativa para acessar o cadastro:</p>
-      <input type="password" id="senha" placeholder="Senha do admin" />
-      <button id="validar-senha">Validar</button>
-      <div id="erro-senha">Senha incorreta. Tente novamente.</div>
-    </section>
-    <!-- Seção do formulário de cadastro (inicialmente escondida) -->
-    <section class="formulario-cadastro" id="formulario-cadastro">
+    <!-- Formulário de cadastro -->
+    <section class="formulario-cadastro">
       <form id="form-cadastro" onsubmit="cadastrarUsuario(event)">
         <div class="form-group">
           <label for="nome">👤 Nome</label>
@@ -257,12 +237,7 @@
         </div>
         <div class="form-group">
           <label for="email">📧 E-mail</label>
-          <input
-                  type="email"
-                  id="email"
-                  placeholder="exemplo@email.com"
-                  required
-          />
+          <input type="email" id="email" placeholder="exemplo@email.com" required />
         </div>
         <div class="form-group">
           <label for="telefone">📞 Telefone</label>
@@ -274,18 +249,23 @@
         </div>
         <div class="form-group">
           <label for="tipo">⚙️ Tipo</label>
-          <select id="tipo">
+          <select id="tipo" required>
             <option value="cliente">Cliente</option>
             <option value="admin">Administrador</option>
           </select>
+        </div>
+        <!-- Campo de senha de verificação (exibe somente se administrador for selecionado) -->
+        <div class="form-group" id="div-senha-verificacao">
+          <label for="senha-verificacao">Digite a senha de verificação:</label>
+          <input type="password" id="senha-verificacao" placeholder="admin123" />
         </div>
         <button type="submit">➕ Cadastrar</button>
       </form>
     </section>
   </main>
 </div>
-<footer>
-  <p>© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+<footer style="background-color: #f4f4f4; border: 1px solid #ccc; text-align: center; padding: 10px; margin-top: 20px;">
+  <p style="margin: 0; font-size: 14px; color: #333;">© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
 </footer>
 </body>
 </html>
