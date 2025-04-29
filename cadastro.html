@@ -16,25 +16,21 @@
       max-width: 600px;
       margin: 20px auto;
     }
-
     .formulario-cadastro form {
       display: flex;
       flex-direction: column;
       gap: 15px;
     }
-
     .form-group {
       display: flex;
       flex-direction: column;
     }
-
     label {
       font-weight: bold;
       margin-bottom: 5px;
       color: #444;
       font-size: 15px;
     }
-
     input[type="text"],
     input[type="email"],
     input[type="password"],
@@ -44,14 +40,12 @@
       border: 1px solid #bbb;
       font-size: 15px;
     }
-
     input:focus,
     select:focus {
       border-color: #d62828;
       outline: none;
       box-shadow: 0 0 3px rgba(214, 40, 40, 0.3);
     }
-
     button {
       background-color: #d62828;
       color: white;
@@ -65,11 +59,9 @@
       margin: 20px auto 0;
       display: block;
     }
-
     button:hover {
       background-color: #a61c1c;
     }
-
     footer {
       background-color: #f4f4f4;
       border: 1px solid #ccc;
@@ -77,7 +69,6 @@
       padding: 10px;
       margin-top: 30px;
     }
-
     @media (max-width: 600px) {
       button {
         width: 100%;
@@ -150,7 +141,16 @@
 </footer>
 
 <script>
-  // Cadastrar novo usuário
+  // Verifica se o usuário está logado e se é admin
+  document.addEventListener("DOMContentLoaded", function () {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || usuarioLogado.tipo !== 'admin') {
+      alert("Acesso restrito. Você precisa estar logado como administrador para acessar esta página.");
+      window.location.href = 'login.html';
+    }
+  });
+
+  // Cadastro de novo usuário
   document.getElementById('form-cadastro').addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -174,7 +174,7 @@
       nome,
       email,
       telefone,
-      senha, // Nota: Em um sistema real, você deve hash a senha antes de armazenar
+      senha, // Em um sistema real, lembre-se de hashear a senha.
       tipo,
       status: 'ativo',
       dataCadastro: new Date().toISOString()
@@ -187,7 +187,7 @@
     document.getElementById('form-cadastro').reset();
   });
 
-  // Logout (opcional)
+  // Logout
   document.getElementById('logout').addEventListener('click', function (e) {
     e.preventDefault();
     localStorage.removeItem('usuarioLogado');
