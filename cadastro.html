@@ -7,6 +7,80 @@
   <link rel="stylesheet" href="estilo.css" />
   <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon" />
   <style>
+    /* Estilos básicos */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f0e1;
+      margin: 0;
+      padding: 20px;
+    }
+    #principal {
+      background: linear-gradient(135deg, #ffcc00, #ff6347);
+      width: 95%;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header img.logo {
+      max-width: 200px;
+      margin-bottom: 20px;
+    }
+    #menu a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.2em;
+    }
+    .menu-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .menu-header h1,
+    .menu-header p {
+      color: #fff;
+    }
+
+    /* Seção para validação da senha administrativa */
+    #senha-admin {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: 0 auto 20px auto;
+    }
+    #senha-admin input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 70%;
+    }
+    #senha-admin button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #d62828;
+      color: white;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    #erro-senha {
+      color: red;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Formulário de cadastro (inicialmente escondido) */
     .formulario-cadastro {
       background-color: #fff;
       border: 1px solid #ccc;
@@ -15,26 +89,23 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       max-width: 600px;
       margin: 20px auto;
+      display: none;
     }
-
     .formulario-cadastro form {
       display: flex;
       flex-direction: column;
       gap: 15px;
     }
-
     .form-group {
       display: flex;
       flex-direction: column;
     }
-
     label {
       font-weight: bold;
       margin-bottom: 5px;
       color: #444;
       font-size: 15px;
     }
-
     input[type="text"],
     input[type="email"],
     input[type="password"],
@@ -44,14 +115,12 @@
       border: 1px solid #bbb;
       font-size: 15px;
     }
-
     input:focus,
     select:focus {
       border-color: #d62828;
       outline: none;
       box-shadow: 0 0 3px rgba(214, 40, 40, 0.3);
     }
-
     button {
       background-color: #d62828;
       color: white;
@@ -65,25 +134,95 @@
       margin: 20px auto 0;
       display: block;
     }
-
     button:hover {
       background-color: #a61c1c;
     }
-
     footer {
       background-color: #f4f4f4;
-      border: 1px solid #ccc;
+      border-top: 1px solid #ccc;
       text-align: center;
       padding: 10px;
       margin-top: 30px;
     }
-
     @media (max-width: 600px) {
       button {
         width: 100%;
       }
     }
   </style>
+  <script>
+    // Verifica se o usuário está logado e se é administrador
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || usuarioLogado.tipo !== 'admin') {
+      alert("Acesso restrito. Você precisa estar logado como administrador para acessar esta página.");
+      window.location.href = 'login.html';
+    }
+
+    // Função para validar a senha administrativa
+    function validarSenhaAdmin() {
+      const senhaCorreta = 'admin123';
+      const senhaInformada = document.getElementById('senha').value;
+      const erroSenha = document.getElementById('erro-senha');
+      const formularioCadastroSection = document.getElementById('formulario-cadastro');
+      const senhaAdminSection = document.getElementById('senha-admin');
+
+      if (senhaInformada === senhaCorreta) {
+        formularioCadastroSection.style.display = 'block';
+        senhaAdminSection.style.display = 'none';
+      } else {
+        erroSenha.style.display = 'block';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Exibe a seção de validação da senha administrativa
+      document.getElementById('senha-admin').style.display = 'block';
+      document.getElementById('formulario-cadastro').style.display = 'none';
+      document.getElementById('validar-senha').addEventListener('click', validarSenhaAdmin);
+
+      // Configuração do botão de logout
+      document.getElementById('logout').addEventListener('click', function (e) {
+        e.preventDefault();
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = 'login.html';
+      });
+    });
+
+    // Função para cadastrar novo usuário
+    function cadastrarUsuario(e) {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const telefone = document.getElementById('telefone').value;
+      const senhaUsuario = document.getElementById('senha-cadastro').value;
+      const tipo = document.getElementById('tipo').value;
+      const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+      // Verifica se o email já está cadastrado
+      const usuarioExistente = usuarios.find(u => u.email === email);
+      if (usuarioExistente) {
+        alert('Este e-mail já está cadastrado!');
+        return;
+      }
+
+      const novoUsuario = {
+        id: Date.now(),
+        nome,
+        email,
+        telefone,
+        senha: senhaUsuario, // Em sistemas reais, a senha deve ser hasheada.
+        tipo,
+        status: 'ativo',
+        dataCadastro: new Date().toISOString()
+      };
+
+      usuarios.push(novoUsuario);
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+      alert('Usuário cadastrado com sucesso!');
+      document.getElementById('form-cadastro').reset();
+    }
+  </script>
 </head>
 <body>
 <div id="principal">
@@ -91,14 +230,8 @@
     <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo" />
     <nav id="menu">
       <a href="index.html">Home</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="pedidos.html">Pedidos</a>
-      <a href="menu.html">Menu</a>
       <a href="cadastro.html">Cadastro de Usuários</a>
-      <a href="usuarios.html">Lista de Usuários</a>
-      <a href="carrinho.html">
-        Carrinho (<span id="carrinho-count">0</span>)
-      </a>
+      <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
       <a href="contato.html">Contato</a>
       <a href="#" id="logout">Sair</a>
     </nav>
@@ -108,17 +241,19 @@
       <h1>Cadastro de Usuários</h1>
       <p>Preencha os campos abaixo para cadastrar um novo usuário</p>
     </div>
-    <!-- Formulário de cadastro -->
-    <section class="formulario-cadastro">
-      <form id="form-cadastro">
+    <!-- Seção para validação da senha administrativa -->
+    <section id="senha-admin">
+      <p>Digite a senha administrativa para acessar o cadastro:</p>
+      <input type="password" id="senha" placeholder="Senha do admin" />
+      <button id="validar-senha">Validar</button>
+      <div id="erro-senha">Senha incorreta. Tente novamente.</div>
+    </section>
+    <!-- Seção do formulário de cadastro (inicialmente escondida) -->
+    <section class="formulario-cadastro" id="formulario-cadastro">
+      <form id="form-cadastro" onsubmit="cadastrarUsuario(event)">
         <div class="form-group">
           <label for="nome">👤 Nome</label>
-          <input
-                  type="text"
-                  id="nome"
-                  placeholder="Digite o nome completo"
-                  required
-          />
+          <input type="text" id="nome" placeholder="Digite o nome completo" required />
         </div>
         <div class="form-group">
           <label for="email">📧 E-mail</label>
@@ -131,20 +266,11 @@
         </div>
         <div class="form-group">
           <label for="telefone">📞 Telefone</label>
-          <input
-                  type="text"
-                  id="telefone"
-                  placeholder="(00) 00000-0000"
-          />
+          <input type="text" id="telefone" placeholder="(00) 00000-0000" />
         </div>
         <div class="form-group">
-          <label for="senha">🔒 Senha</label>
-          <input
-                  type="password"
-                  id="senha"
-                  placeholder="Digite uma senha"
-                  required
-          />
+          <label for="senha-cadastro">🔒 Senha</label>
+          <input type="password" id="senha-cadastro" placeholder="Digite uma senha" required />
         </div>
         <div class="form-group">
           <label for="tipo">⚙️ Tipo</label>
@@ -161,47 +287,5 @@
 <footer>
   <p>© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
 </footer>
-<script>
-  // Cadastrar novo usuário
-  document.getElementById("form-cadastro").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const telefone = document.getElementById("telefone").value;
-    const senha = document.getElementById("senha").value;
-    const tipo = document.getElementById("tipo").value;
-    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-    // Verifica se o email já está cadastrado
-    const usuarioExistente = usuarios.find((u) => u.email === email);
-    if (usuarioExistente) {
-      alert("Este e-mail já está cadastrado!");
-      return;
-    }
-
-    const novoUsuario = {
-      id: Date.now(),
-      nome,
-      email,
-      telefone,
-      senha, // Nota: Em um sistema real, você deve hash a senha antes de armazenar
-      tipo,
-      status: "ativo",
-      dataCadastro: new Date().toISOString(),
-    };
-
-    usuarios.push(novoUsuario);
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    alert("Usuário cadastrado com sucesso!");
-    document.getElementById("form-cadastro").reset();
-  });
-
-  // Logout (opcional)
-  document.getElementById("logout").addEventListener("click", function (e) {
-    e.preventDefault();
-    localStorage.removeItem("usuarioLogado");
-    window.location.href = "login.html";
-  });
-</script>
 </body>
 </html>
