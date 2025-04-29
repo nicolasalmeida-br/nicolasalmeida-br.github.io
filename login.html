@@ -7,18 +7,58 @@
     <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
     <title>Login - Pizzaria Reputation</title>
     <style>
-        /* Estilos para formulários */
+        /* Estilos Gerais */
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f0e1;
+          margin: 0;
+          padding: 20px;
+        }
+        #principal {
+          background: linear-gradient(135deg, #ffcc00, #ff6347);
+          width: 95%;
+          max-width: 1200px;
+          margin: 20px auto;
+          padding: 20px;
+          border-radius: 10px;
+        }
+        header {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        header img.logo {
+          max-width: 200px;
+          margin-bottom: 20px;
+        }
+        #menu a {
+          margin: 0 10px;
+          text-decoration: none;
+          color: #fff;
+          font-size: 1.2em;
+        }
+
+        /* Área de Formulário - Mantém fundo transparente */
+        .form-login {
+          background-color: transparent;
+        }
+
+        /* Área dos dados de preenchimento - Com fundo branco */
+        .dados-preenchimento {
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+        }
+
+        /* Estilos dos grupos de inputs */
         .input-group {
           margin-bottom: 20px;
         }
-
         .input-group label {
           display: block;
           margin-bottom: 8px;
           font-weight: bold;
           color: #333;
         }
-
         .input-group input,
         .input-group select,
         .input-group textarea {
@@ -29,7 +69,7 @@
           font-size: 1em;
         }
 
-        /* Mensagens de feedback */
+        /* Estilos das mensagens */
         .mensagem {
           padding: 15px;
           margin: 20px 0;
@@ -37,163 +77,179 @@
           display: none;
           text-align: center;
         }
-
         .mensagem.erro {
           background-color: #ffebee;
           color: #c62828;
           border: 1px solid #ef9a9a;
         }
-
         .mensagem.sucesso {
           background-color: #e8f5e9;
           color: #2e7d32;
           border: 1px solid #a5d6a7;
         }
 
-        .form-login {
-          background-color: transparent;
-          border: none;
-          box-shadow: none;
+        /* Link "Não tem conta?" */
+        .login-link {
+          text-align: center;
+          margin-top: 20px;
         }
-    </style>
-</head>
-<body>
-<div id="principal">
-    <header>
-        <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
-        <nav id="menu">
-            <a href="index.html">Home</a>
-            <a href="sobre.html">Sobre</a>
-            <a href="pedidos.html">Pedidos</a>
-            <a href="menu.html">Menu</a>
-            <a href="cadastro.html">Cadastro de Usuários</a>
-            <a href="usuarios.html">Lista de Usuários</a>
-            <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
-            <a href="contato.html">Contato</a>
-            <a href="#" id="logout">Sair</a>
-        </nav>
-    </header>
+        .login-link a {
+          color: #0066cc;
+          text-decoration: none;
+        }
+        .login-link a:hover {
+          text-decoration: underline;
+        }
 
-    <main>
-        <section class="form-login">
-            <div class="menu-header">
-                <h1>Login</h1>
-                <p>Informe seus dados para acessar sua conta</p>
-            </div>
-            <div class="dados-preenchimento">
-                <form id="formLogin">
-                    <div class="input-group">
-                        <label for="email">E-mail</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="senha">Senha</label>
-                        <input type="password" id="senha" name="senha" required>
-                    </div>
-                    <button type="submit" class="btn-submit">Entrar</button>
-                </form>
-                <div id="msg-erro" class="mensagem erro"></div>
-                <p class="login-link">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
-            </div>
-        </section>
-    </main>
-</div>
+        /* Rodapé */
+        footer {
+          background-color: #f4f4f4;
+          border: 1px solid #ccc;
+          text-align: center;
+          padding: 10px;
+          margin-top: 20px;
+        }
+        footer p {
+          margin: 0;
+          font-size:
+  </head>
+  <body>
+  <div id="principal">
+      <header>
+          <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
+          <nav id="menu">
+              <a href="index.html">Home</a>
+              <a href="sobre.html">Sobre</a>
+              <a href="pedidos.html">Pedidos</a>
+              <a href="menu.html">Menu</a>
+              <a href="cadastro.html">Cadastro de Usuários</a>
+              <a href="usuarios.html">Lista de Usuários</a>
+              <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+              <a href="contato.html">Contato</a>
+              <a href="#" id="logout">Sair</a>
+          </nav>
+      </header>
 
-<footer style="background-color: #f4f4f4; border: 1px solid #ccc; text-align: center; padding: 10px; margin-top: 20px;">
-    <p style="margin: 0; font-size: 14px; color: #333;">© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
-</footer>
+      <main>
+          <section class="form-login">
+              <div class="menu-header">
+                  <h1>Login</h1>
+                  <p>Informe seus dados para acessar sua conta</p>
+              </div>
+              <div class="dados-preenchimento">
+                  <form id="formLogin">
+                      <div class="input-group">
+                          <label for="email">E-mail</label>
+                          <input type="email" id="email" name="email" required>
+                      </div>
+                      <div class="input-group">
+                          <label for="senha">Senha</label>
+                          <input type="password" id="senha" name="senha" required>
+                      </div>
+                      <button type="submit" class="btn-submit">Entrar</button>
+                  </form>
+                  <div id="msg-erro" class="mensagem erro"></div>
+                  <p class="login-link">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+              </div>
+          </section>
+      </main>
+  </div>
 
-<script>
-    // Atualizar contador do carrinho
-    function atualizarContadorCarrinho() {
-      try {
-        const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-        const totalItens = carrinho.reduce(
-          (total, item) => total + (item.quantidade || 1),
-          0
-        );
-        document.getElementById('carrinho-count').textContent = totalItens;
-      } catch (error) {
-        console.error('Erro ao atualizar carrinho:', error);
+  <footer style="background-color: #f4f4f4; border: 1px solid #ccc; text-align: center; padding: 10px; margin-top: 20px;">
+      <p style="margin: 0; font-size: 14px; color: #333;">© 2025 Pizzaria Reputation. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+      // Atualizar contador do carrinho
+      function atualizarContadorCarrinho() {
+        try {
+          const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+          const totalItens = carrinho.reduce(
+            (total, item) => total + (item.quantidade || 1),
+            0
+          );
+          document.getElementById('carrinho-count').textContent = totalItens;
+        } catch (error) {
+          console.error('Erro ao atualizar carrinho:', error);
+        }
       }
-    }
 
-    // Login do usuário
-    document.getElementById('formLogin').addEventListener('submit', function(e) {
-      e.preventDefault();
+      // Login do usuário
+      document.getElementById('formLogin').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-      // Limpar mensagens de erro
-      const msgErro = document.getElementById('msg-erro');
-      msgErro.style.display = 'none';
-      msgErro.textContent = '';
+        // Limpar mensagens de erro
+        const msgErro = document.getElementById('msg-erro');
+        msgErro.style.display = 'none';
+        msgErro.textContent = '';
 
-      const email = document.getElementById('email').value.trim().toLowerCase();
-      const senha = document.getElementById('senha').value;
+        const email = document.getElementById('email').value.trim().toLowerCase();
+        const senha = document.getElementById('senha').value;
 
-      try {
-        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        try {
+          const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
-        // Buscar o usuário com base no email
-        const usuario = usuarios.find(user => {
-          const userEmail = user.email ? user.email.trim().toLowerCase() : '';
-          return userEmail === email;
-        });
+          // Buscar o usuário com base no email
+          const usuario = usuarios.find(user => {
+            const userEmail = user.email ? user.email.trim().toLowerCase() : '';
+            return userEmail === email;
+          });
 
-        if (!usuario) {
-          msgErro.textContent = 'E-mail ou senha incorretos!';
+          if (!usuario) {
+            msgErro.textContent = 'E-mail ou senha incorretos!';
+            msgErro.style.display = 'block';
+            return;
+          }
+
+          // Verificar a senha
+          if (usuario.senha !== senha) {
+            msgErro.textContent = 'E-mail ou senha incorretos!';
+            msgErro.style.display = 'block';
+            return;
+          }
+
+          // Salvar sessão do usuário (excluindo a senha)
+          localStorage.setItem('usuarioLogado', JSON.stringify({
+            id: usuario.id,
+            nome: usuario.nome,
+            email: usuario.email,
+            tipo: usuario.tipo || 'cliente'
+          }));
+
+          // Redirecionar conforme o tipo de usuário
+          if (usuario.tipo === 'admin') {
+            window.location.href = 'usuarios.html';
+          } else {
+            window.location.href = 'index.html';
+          }
+        } catch (error) {
+          console.error('Erro no login:', error);
+          msgErro.textContent = 'Ocorreu um erro durante o login. Tente novamente.';
           msgErro.style.display = 'block';
-          return;
         }
+      });
 
-        // Verificar a senha
-        if (usuario.senha !== senha) {
-          msgErro.textContent = 'E-mail ou senha incorretos!';
-          msgErro.style.display = 'block';
-          return;
+      // Logout
+      document.getElementById('logout').addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = 'login.html';
+      });
+
+      // Inicializar
+      document.addEventListener('DOMContentLoaded', function() {
+        atualizarContadorCarrinho();
+
+        // Checar se o usuário já está logado e redirecionar
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (usuarioLogado) {
+          if (usuarioLogado.tipo === 'admin') {
+            window.location.href = 'usuarios.html';
+          } else {
+            window.location.href = 'index.html';
+          }
         }
-
-        // Salvar sessão do usuário (excluindo a senha)
-        localStorage.setItem('usuarioLogado', JSON.stringify({
-          id: usuario.id,
-          nome: usuario.nome,
-          email: usuario.email,
-          tipo: usuario.tipo || 'cliente'
-        }));
-
-        // Redirecionar conforme o tipo de usuário
-        if (usuario.tipo === 'admin') {
-          window.location.href = 'usuarios.html';
-        } else {
-          window.location.href = 'index.html';
-        }
-      } catch (error) {
-        console.error('Erro no login:', error);
-        msgErro.textContent = 'Ocorreu um erro durante o login. Tente novamente.';
-        msgErro.style.display = 'block';
-      }
-    });
-
-    // Logout
-    document.getElementById('logout').addEventListener('click', function(e) {
-      e.preventDefault();
-      localStorage.removeItem('usuarioLogado');
-      window.location.href = 'login.html';
-    });
-
-    // Inicializar
-    document.addEventListener('DOMContentLoaded', function() {
-      atualizarContadorCarrinho();
-
-      // Checar se o usuário já está logado e redirecionar
-      const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-      if (usuarioLogado) {
-        if (usuarioLogado.tipo === 'admin') {
-          window.location.href = 'usuarios.html';
-        } else {
-          window.location.href = 'index.html';
-        }
-      }
-    });
-</script>
-</body>
-</html>
+      });
+  </script>
+  </body>
+  </html>
