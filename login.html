@@ -7,98 +7,352 @@
     <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
     <title>Login - Pizzaria Reputation</title>
     <style>
-        /* Estilos básicos para visualização */
-        .menu-header {
-        padding: 2em 0;
-        text-align: center;
-        margin-bottom: 2em;
-        }
-
-        .menu-header h1 {
-            font-size: 2.5em;
-            color: #333;
-            margin-bottom: 0.5em;
-        }
-
-        .menu-header p {
-            font-size: 1.4em;
-            color: #666;
+        * {
+          box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
+          background-color: #f4f0e1;
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
         }
-        .form-login {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+        #principal {
+          background: linear-gradient(135deg, #ffcc00, #ff6347);
+          width: 95%;
+          max-width: 1850px;
+          margin: 2em auto;
+          padding: 2.5em;
+          border-radius: 15px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        .input-group {
-            margin-bottom: 15px;
+
+        #menu {
+          background-color: #e34f3d;
+          padding: 1.5em;
+          border-radius: 10px;
+          text-align: center;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          margin-bottom: 2em;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
+
+        #menu a {
+          padding: 0.8em 1em;
+          text-decoration: none;
+          color: white;
+          font-size: 1.3em;
+          transition: background-color 0.3s ease, color 0.3s ease;
         }
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
+
+        #menu a:hover {
+          background-color: #ff6347;
+          color: #fffacd;
         }
+
+        .hero {
+          background-image: url('https://images.unsplash.com/photo-1591024896735-6b43dcd7b710');
+          background-size: cover;
+          background-position: center;
+          padding: 60px;
+          text-align: center;
+          color: white;
+          border-radius: 15px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero h1 {
+          font-size: 3em;
+          margin-bottom: 20px;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+          font-size: 1.5em;
+          margin-bottom: 30px;
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-header {
+          padding: 2em 0;
+          text-align: center;
+          margin-bottom: 2em;
+        }
+
+        .menu-header h1 {
+          font-size: 2.5em;
+          color: #fff;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+          margin-bottom: 0.5em;
+        }
+
+        .menu-header p {
+          font-size: 1.4em;
+          color: #fff;
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+          width: 500px;
+          height: auto;
+          margin-bottom: 1.5em;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .btn-order,
         .btn-submit {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 10px;
+          background-color: #ff6347;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+          font-size: 1.2em;
+          width: 100%;
         }
+
+        .btn-order:hover,
         .btn-submit:hover {
-            background-color: #45a049;
+          background-color: #ffcc00;
+          color: #e34f3d;
         }
+
+        .menu-items {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 2em;
+          justify-content: center;
+        }
+
+        .menu-item {
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          padding: 1.5em;
+          text-align: center;
+          width: 280px;
+          transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+          transform: scale(1.05);
+        }
+
+        .menu-item img {
+          width: 100%;
+          height: auto;
+          max-width: 280px;
+          margin-bottom: 1em;
+          border-radius: 8px;
+        }
+
+        .menu-item h3 {
+          margin: 10px 0;
+          color: #333;
+        }
+
+        .menu-item .price {
+          font-weight: bold;
+          margin: 10px 0;
+          color: #e34f3d;
+          font-size: 1.2em;
+        }
+
+        .quantity {
+          margin: 15px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .quantity label {
+          margin-right: 10px;
+        }
+
+        .quantity input {
+          width: 60px;
+          padding: 5px;
+          text-align: center;
+        }
+
+        /* Estilos para a lista de usuários */
+        .lista-usuarios {
+          margin: 20px 0;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .lista-usuarios table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
+
+        .lista-usuarios th,
+        .lista-usuarios td {
+          padding: 12px 15px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+
+        .lista-usuarios th {
+          background-color: #e34f3d;
+          color: white;
+        }
+
+        .lista-usuarios tr:hover {
+          background-color: #f5f5f5;
+        }
+
+        .btn-alterar-status,
+        .btn-excluir {
+          padding: 5px 10px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-right: 5px;
+          font-size: 0.9em;
+        }
+
+        .btn-alterar-status {
+          background-color: #4CAF50;
+          color: white;
+        }
+
+        .btn-excluir {
+          background-color: #f44336;
+          color: white;
+        }
+
+        .btn-alterar-status:hover {
+          background-color: #45a049;
+        }
+
+        .btn-excluir:hover {
+          background-color: #d32f2f;
+        }
+
+        /* Estilos para o carrinho */
+        #carrinho {
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carrinho-items {
+          margin-bottom: 20px;
+        }
+
+        .carrinho-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 15px;
+          padding: 10px;
+          background-color: #f9f9f9;
+          border-radius: 8px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .carrinho-item .item-info {
+          flex: 1;
+          margin-left: 10px;
+        }
+
+        .carrinho-item img {
+          width: 80px;
+          height: 80px;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+
+        .btn-remover {
+          background-color: #ff6347;
+          color: white;
+          border: none;
+          padding: 8px 15px;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        .btn-remover:hover {
+          background-color: #ffcc00;
+        }
+
+        .carrinho-total {
+          text-align: right;
+          margin-top: 20px;
+          padding-top: 20px;
+          border-top: 2px solid #eee;
+        }
+
+        .total {
+          font-size: 1.5em;
+          font-weight: bold;
+          color: #e34f3d;
+        }
+
+        /* Estilos para formulários */
+        .form-cadastro,
+        .form-login {
+          background-color: #fff;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        .input-group {
+          margin-bottom: 20px;
+        }
+
+        .input-group label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: bold;
+          color: #333;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          font-size: 1em;
+        }
+
+        /* Mensagens de feedback */
         .mensagem {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-            display: none;
+          padding: 15px;
+          margin: 20px 0;
+          border-radius: 5px;
+          display: none;
+          text-align: center;
         }
-        .erro {
-            background-color: #ffdddd;
-            color: #d8000c;
-            border: 1px solid #ffaaaa;
+
+        .mensagem.erro {
+          background-color: #ffebee;
+          color: #c62828;
+          border: 1px solid #ef9a9a;
         }
-        .login-link {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-        .login-link a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-        footer {
-            background-color: #f4f4f4;
-            border-top: 1px solid #ddd;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
+
+        .mensagem.sucesso {
+          background-color: #e8f5e9;
+          color: #2e7d32;
+          border: 1px solid #a5d6a7;
         }
     </style>
 </head>
@@ -125,24 +379,19 @@
                 <h1>Login</h1>
                 <p>Informe seus dados para acessar sua conta</p>
             </div>
-
             <div class="dados-preenchimento">
                 <form id="formLogin">
                     <div class="input-group">
                         <label for="email">E-mail</label>
                         <input type="email" id="email" name="email" required>
                     </div>
-
                     <div class="input-group">
                         <label for="senha">Senha</label>
                         <input type="password" id="senha" name="senha" required>
                     </div>
-
                     <button type="submit" class="btn-submit">Entrar</button>
                 </form>
-
                 <div id="msg-erro" class="mensagem erro"></div>
-
                 <p class="login-link">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
             </div>
         </section>
@@ -156,93 +405,93 @@
 <script>
     // Atualizar contador do carrinho
     function atualizarContadorCarrinho() {
-        try {
-            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            const totalItens = carrinho.reduce((total, item) => total + (item.quantidade || 1), 0);
-            document.getElementById('carrinho-count').textContent = totalItens;
-        } catch (error) {
-            console.error('Erro ao atualizar carrinho:', error);
-        }
+      try {
+        const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        const totalItens = carrinho.reduce(
+          (total, item) => total + (item.quantidade || 1),
+          0
+        );
+        document.getElementById('carrinho-count').textContent = totalItens;
+      } catch (error) {
+        console.error('Erro ao atualizar carrinho:', error);
+      }
     }
 
-    // Login do usuário - Versão corrigida
+    // Login do usuário
     document.getElementById('formLogin').addEventListener('submit', function(e) {
-        e.preventDefault();
+      e.preventDefault();
 
-        // Limpar mensagens
-        const msgErro = document.getElementById('msg-erro');
-        msgErro.style.display = 'none';
-        msgErro.textContent = '';
+      // Limpar mensagens de erro
+      const msgErro = document.getElementById('msg-erro');
+      msgErro.style.display = 'none';
+      msgErro.textContent = '';
 
-        const email = document.getElementById('email').value.trim().toLowerCase();
-        const senha = document.getElementById('senha').value;
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const senha = document.getElementById('senha').value;
 
-        try {
-            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+      try {
+        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
-            // Encontrar usuário (compatível com cadastro antigo e novo)
-            const usuario = usuarios.find(user => {
-                const userEmail = user.email ? user.email.trim().toLowerCase() : '';
-                return userEmail === email;
-            });
+        // Buscar o usuário com base no email
+        const usuario = usuarios.find(user => {
+          const userEmail = user.email ? user.email.trim().toLowerCase() : '';
+          return userEmail === email;
+        });
 
-            if (!usuario) {
-                msgErro.textContent = 'E-mail ou senha incorretos!';
-                msgErro.style.display = 'block';
-                return;
-            }
-
-            // Verificar senha (compatível com cadastro antigo e novo)
-            const senhaCorreta = usuario.senha === senha;
-
-            if (!senhaCorreta) {
-                msgErro.textContent = 'E-mail ou senha incorretos!';
-                msgErro.style.display = 'block';
-                return;
-            }
-
-            // Salvar sessão do usuário (sem a senha)
-            localStorage.setItem('usuarioLogado', JSON.stringify({
-                id: usuario.id,
-                nome: usuario.nome,
-                email: usuario.email,
-                tipo: usuario.tipo || 'cliente'
-            }));
-
-            // Redirecionar conforme o tipo de usuário
-            if (usuario.tipo === 'admin') {
-                window.location.href = 'usuarios.html';
-            } else {
-                window.location.href = 'index.html';
-            }
-
-        } catch (error) {
-            console.error('Erro no login:', error);
-            msgErro.textContent = 'Ocorreu um erro durante o login. Tente novamente.';
-            msgErro.style.display = 'block';
+        if (!usuario) {
+          msgErro.textContent = 'E-mail ou senha incorretos!';
+          msgErro.style.display = 'block';
+          return;
         }
+
+        // Verificar a senha
+        if (usuario.senha !== senha) {
+          msgErro.textContent = 'E-mail ou senha incorretos!';
+          msgErro.style.display = 'block';
+          return;
+        }
+
+        // Salvar sessão do usuário (excluindo a senha)
+        localStorage.setItem('usuarioLogado', JSON.stringify({
+          id: usuario.id,
+          nome: usuario.nome,
+          email: usuario.email,
+          tipo: usuario.tipo || 'cliente'
+        }));
+
+        // Redirecionar conforme o tipo de usuário
+        if (usuario.tipo === 'admin') {
+          window.location.href = 'usuarios.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      } catch (error) {
+        console.error('Erro no login:', error);
+        msgErro.textContent = 'Ocorreu um erro durante o login. Tente novamente.';
+        msgErro.style.display = 'block';
+      }
     });
 
     // Logout
     document.getElementById('logout').addEventListener('click', function(e) {
-        e.preventDefault();
-        localStorage.removeItem('usuarioLogado');
-        window.location.href = 'login.html';
+      e.preventDefault();
+      localStorage.removeItem('usuarioLogado');
+      window.location.href = 'login.html';
     });
 
     // Inicializar
     document.addEventListener('DOMContentLoaded', function() {
-        atualizarContadorCarrinho();
+      atualizarContadorCarrinho();
 
-        // Verificar se já está logado e redirecionar
-        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (usuarioLogado) {
-            if (usuarioLogado.tipo === 'admin') {
-                window.location.href = 'usuarios.html';
-            } else {
-                window.location.href = 'index.html';
-            }
+      // Checar se o usuário já está logado e redirecionar
+      const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+      if (usuarioLogado) {
+        if (usuarioLogado.tipo === 'admin') {
+          window.location.href = 'usuarios.html';
+        } else {
+          window.location.href = 'index.html';
         }
+      }
     });
 </script>
 </body>
