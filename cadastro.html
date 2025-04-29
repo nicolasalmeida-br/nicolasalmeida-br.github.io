@@ -1,262 +1,197 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cadastro de Usuários - Pizzaria Reputation</title>
-  <link rel="stylesheet" href="estilo.css">
-  <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="logo-pizzaria.png" type="image/x-icon">
+  <title>Login - Pizzaria Reputation</title>
   <style>
-    /* Estilos básicos para a página */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f0e1;
-      margin: 0;
-      padding: 20px;
+    /* Reset e configurações globais */
+    * {
+      box-sizing: border-box;
     }
+    body {
+      background-color: #f4f0e1;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    /* Container principal */
     #principal {
       background: linear-gradient(135deg, #ffcc00, #ff6347);
       width: 95%;
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 10px;
+      max-width: 1850px;
+      margin: 2em auto;
+      padding: 2.5em;
+      border-radius: 15px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
+    /* Cabeçalho: logo e menu */
     header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 2em;
     }
-    header nav a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #fff;
-      font-size: 1.2em;
-    }
-    /* Seção para validação da senha administrativa */
-    #senha-admin {
-      text-align: center;
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #senha-admin input {
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      width: 70%;
-    }
-    #senha-admin button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      background-color: #d62828;
-      color: white;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-    #erro-senha {
-      color: red;
-      margin-top: 10px;
-      display: none;
-    }
-    /* Seção do formulário de cadastro – inicialmente escondido */
-    .formulario-cadastro {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
-      margin: 20px auto;
-      display: none;
-    }
-    .formulario-cadastro form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-    label {
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #444;
-      font-size: 15px;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    select {
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #bbb;
-      font-size: 15px;
-    }
-    input:focus,
-    select:focus {
-      border-color: #d62828;
-      outline: none;
-      box-shadow: 0 0 3px rgba(214, 40, 40, 0.3);
-    }
-    button {
-      background-color: #d62828;
-      color: white;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      width: 50%;
-      margin: 20px auto 0;
+    .logo {
+      width: 500px;
+      height: auto;
+      margin: 0 auto 1.5em;
       display: block;
     }
-    button:hover {
-      background-color: #a61c1c;
+    #menu {
+      background-color: #e34f3d;
+      padding: 1.5em;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2em;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
     }
+    #menu a {
+      padding: 0.8em 1em;
+      text-decoration: none;
+      color: white;
+      font-size: 1.3em;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    #menu a:hover {
+      background-color: #ff6347;
+      color: #fffacd;
+    }
+    /* Estilos do formulário de login */
+    .form-login {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .menu-header {
+      padding: 2em 0;
+      text-align: center;
+      margin-bottom: 2em;
+    }
+    .menu-header h1 {
+      font-size: 2.5em;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.5em;
+    }
+    .menu-header p {
+      font-size: 1.4em;
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    .btn-submit {
+      background-color: #ff6347;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 1.2em;
+      width: 100%;
+    }
+    .btn-submit:hover {
+      background-color: #ffcc00;
+      color: #e34f3d;
+    }
+    .mensagem {
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      display: none;
+      text-align: center;
+    }
+    .mensagem.erro {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ef9a9a;
+    }
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+    .login-link a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    /* Estilos do rodapé */
     footer {
       background-color: #f4f4f4;
-      border-top: 1px solid #ccc;
+      border-top: 1px solid #ddd;
       text-align: center;
-      padding: 10px;
-      margin-top: 30px;
+      padding: 20px;
+      margin-top: 40px;
     }
   </style>
-  <script>
-    // Verifica se há um usuário logado e se ele possui o tipo "admin".
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    if (!usuarioLogado || usuarioLogado.tipo !== 'admin') {
-      alert("Acesso restrito. Você precisa estar logado como administrador para acessar esta página.");
-      window.location.href = 'login.html';
-    }
-
-    // Função para validar a senha administrativa
-    function validarSenhaAdmin() {
-      const senhaCorreta = 'admin123';
-      const senhaInformada = document.getElementById('senha').value;
-      const erroSenha = document.getElementById('erro-senha');
-      const formularioCadastroSection = document.getElementById('formulario-cadastro');
-      const senhaAdminSection = document.getElementById('senha-admin');
-
-      if (senhaInformada === senhaCorreta) {
-        formularioCadastroSection.style.display = 'block';
-        senhaAdminSection.style.display = 'none';
-      } else {
-        erroSenha.style.display = 'block';
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      // Exibe a seção de validação de senha e adiciona o listener para o botão
-      document.getElementById('senha-admin').style.display = 'block';
-      document.getElementById('formulario-cadastro').style.display = 'none';
-      document.getElementById('validar-senha').addEventListener('click', validarSenhaAdmin);
-
-      // Configuração do botão de logout
-      document.getElementById('logout').addEventListener('click', function (e) {
-        e.preventDefault();
-        localStorage.removeItem('usuarioLogado');
-        window.location.href = 'login.html';
-      });
-    });
-
-    // Função para cadastro de novo usuário
-    function cadastrarUsuario(e) {
-      e.preventDefault();
-
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      const telefone = document.getElementById('telefone').value;
-      const senhaUsuario = document.getElementById('senha-cadastro').value;
-      const tipo = document.getElementById('tipo').value;
-
-      const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-
-      // Verifica se o e-mail já está cadastrado
-      const usuarioExistente = usuarios.find(u => u.email === email);
-      if (usuarioExistente) {
-        alert('Este e-mail já está cadastrado!');
-        return;
-      }
-
-      const novoUsuario = {
-        id: Date.now(),
-        nome,
-        email,
-        telefone,
-        senha: senhaUsuario, // Em sistemas reais, a senha deve ser hasheada
-        tipo,
-        status: 'ativo',
-        dataCadastro: new Date().toISOString()
-      };
-
-      usuarios.push(novoUsuario);
-      localStorage.setItem('usuarios', JSON.stringify(usuarios));
-
-      alert('Usuário cadastrado com sucesso!');
-      document.getElementById('form-cadastro').reset();
-    }
-  </script>
 </head>
 <body>
 <div id="principal">
   <header>
-    <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo" />
+    <img src="logo-pizzaria.png" alt="Logo Pizzaria" class="logo">
     <nav id="menu">
       <a href="index.html">Home</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="pedidos.html">Pedidos</a>
+      <a href="menu.html">Menu</a>
       <a href="cadastro.html">Cadastro de Usuários</a>
+      <a href="usuarios.html">Lista de Usuários</a>
       <a href="carrinho.html">Carrinho (<span id="carrinho-count">0</span>)</a>
+      <a href="contato.html">Contato</a>
       <a href="#" id="logout">Sair</a>
     </nav>
   </header>
 
-  <!-- Seção para validação da senha administrativa -->
-  <section id="senha-admin">
-    <p>Digite a senha administrativa para acessar o cadastro:</p>
-    <input type="password" id="senha" placeholder="Senha do admin">
-    <button id="validar-senha">Validar</button>
-    <div id="erro-senha">Senha incorreta. Tente novamente.</div>
-  </section>
-
-  <!-- Seção do formulário de cadastro (inicialmente escondida) -->
-  <section class="formulario-cadastro" id="formulario-cadastro">
-    <form id="form-cadastro" onsubmit="cadastrarUsuario(event)">
-      <div class="form-group">
-        <label for="nome">👤 Nome</label>
-        <input type="text" id="nome" placeholder="Digite o nome completo" required />
+  <main>
+    <section class="form-login">
+      <div class="menu-header">
+        <h1>Login</h1>
+        <p>Informe seus dados para acessar sua conta</p>
       </div>
-      <div class="form-group">
-        <label for="email">📧 E-mail</label>
-        <input type="email" id="email" placeholder="exemplo@email.com" required />
+      <div class="dados-preenchimento">
+        <form id="formLogin">
+          <div class="input-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="input-group">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" required>
+          </div>
+          <button type="submit" class="btn-submit">Entrar</button>
+        </form>
+        <div id="msg-erro" class="mensagem erro"></div>
+        <p class="login-link">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
       </div>
-      <div class="form-group">
-        <label for="telefone">📞 Telefone</label>
-        <input type="text" id="telefone" placeholder="(00) 00000-0000" />
-      </div>
-      <div class="form-group">
-        <label for="senha-cadastro">🔒 Senha</label>
-        <input type="password" id="senha-cadastro" placeholder="Digite uma senha" required />
-      </div>
-      <div class="form-group">
-        <label for="tipo">⚙️ Tipo</label>
-        <select id="tipo">
-          <option value="cliente">Cliente</option>
-          <option value="admin">Administrador</option>
-        </select>
-      </div>
-      <button type="submit">➕ Cadastrar</button>
-    </form>
-  </section>
+    </section>
+  </main>
 </div>
 
 <footer>
