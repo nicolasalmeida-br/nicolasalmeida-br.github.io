@@ -9,105 +9,76 @@
     <style>
         /* Estilos básicos para visualização */
         .menu-header {
+            padding: 2em 0;
             text-align: center;
-            margin: 30px 0;
+            margin-bottom: 2em;
         }
-
+    
         .menu-header h1 {
             font-size: 2.5em;
-            color: #333;
-            margin-bottom: 10px;
+            color: #000; /* Alterado */
+            text-shadow: none; /* Removido para não escurecer o texto */
+            margin-bottom: 0.5em;
         }
-
+    
         .menu-header p {
-            font-size: 1.2em;
-            color: #666;
+            font-size: 1.4em;
+            color: #000; /* Alterado */
+            text-shadow: none; /* Removido */
         }
-
+    
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            color: #000; /* Garantir que o body tenha texto preto */
         }
-
+    
         .form-login {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            color: #000; /* Garantir cor preta */
         }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
+    
+        .input-group {
             margin-bottom: 15px;
         }
-
+    
         label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #444;
-        }
-
-        input[type="email"],
-        input[type="password"] {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #bbb;
-            font-size: 15px;
-        }
-
-        input:focus {
-            border-color: #d62828;
-            outline: none;
-            box-shadow: 0 0 3px rgba(214, 40, 40, 0.3);
-        }
-
-        button {
-            background-color: #d62828;
-            color: white;
-            padding: 12px;
-            font-size: 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            width: 50%;
-            margin: 20px auto 0;
             display: block;
+            margin-bottom: 5px;
+            color: #000; /* Alterado */
         }
-
-        button:hover {
-            background-color: #a61c1c;
+    
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            color: #000; /* Cor do texto dentro do input */
         }
-
+    
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    
         .mensagem {
             padding: 10px;
             margin: 10px 0;
             border-radius: 4px;
             display: none;
         }
-
+    
         .erro {
             background-color: #ffdddd;
             color: #d8000c;
-        }
-
-        footer {
-            background-color: #f4f4f4;
-            border: 1px solid #ccc;
-            text-align: center;
-            padding: 10px;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 600px) {
-            button {
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -130,28 +101,29 @@
 
         <main>
             <section class="form-login">
-                <div class="menu-header">
+                <div class="dados-preenchimento">
                     <h1>Login</h1>
                     <p>Informe seus dados para acessar sua conta</p>
+
+                    <form id="formLogin">
+                        <div class="input-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="senha">Senha</label>
+                            <input type="password" id="senha" name="senha" required>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Entrar</button>
+                    </form>
+
+                    <div id="msg-erro" class="mensagem erro"></div>
+                    <div id="debug-info" style="margin-top: 20px; padding: 10px; background: #f0f0f0; display: none;"></div>
+                    
+                    <p class="login-link">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
                 </div>
-
-                <form id="formLogin">
-                    <div class="form-group">
-                        <label for="email">E-mail</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="senha">Senha</label>
-                        <input type="password" id="senha" name="senha" required>
-                    </div>
-
-                    <button type="submit">Entrar</button>
-                </form>
-
-                <div id="msg-erro" class="mensagem erro"></div>
-                
-                <p class="login-link">Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
             </section>
         </main>
     </div>
